@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript">
+		function genPattern() {
+			var i, j, k;
+			k = 1;
+			for (i=1;i <= 4; i++) {
+				for (j = 1; j < 4;j++) {
+					document.write("&nbsp;" + "&nbsp;");
+				}
+				for(j= 1;j<=i;j++) {
+					document.write(k + "&nbsp;" + "&nbsp;");
+					k++;
+				}
+				document.write("<br>");
+			}
+		}
+	</script>
+</head>
+<body>
+	<input type="button" value="click me to check output" onclick="return genPattern();" />
+</body>
+</html>

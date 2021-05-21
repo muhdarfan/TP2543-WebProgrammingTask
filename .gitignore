@@ -1,0 +1,8 @@
+/week6lab/picture/*
+/myPT1/products/*
+/pt1/products/*
+/pt2/products/*
+*.png
+*.jpg
+database.php
+db.php

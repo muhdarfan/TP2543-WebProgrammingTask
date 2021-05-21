@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript">
+		function fine() {
+			var days = prompt("Enter day's number");
+			days = parseInt(days);
+
+			switch (days) {
+				case 1:
+				document.write("Its Monday");
+				break;
+				case 2:
+				document.write("Its Tuesday");
+				break;
+				case 3:
+				document.write("Its Wednesday");
+				break;
+				case 4:
+				document.write("Its Thursday");
+				break;
+				case 5:
+				document.write("Its Friday");
+				break;
+				case 6:
+				document.write("Its Saturday");
+				break;
+				case 7:
+				document.write("Its Sunday");
+				break;
+				default:
+				document.write("Invalid Input");
+				break;
+			}
+		}
+	</script>
+</head>
+<body>
+	<p id="text"></p>
+	<input type="button" value="enter day's number" onclick="return fine();" />
+</body>
+</html>
