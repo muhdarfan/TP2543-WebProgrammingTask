@@ -32,4 +32,6 @@
 | [Task 3 - Javascript & Bootstrap](myPT3/) | ✔️ |
 | [Task 4 - Final Project]() | 🚧 |
 
-**Do not hesitate to use it as a reference! Contact me if anything goes wrong**
+**Do not hesitate to use it as a reference!**
+
+**Contact me if anything goes wrong.**
