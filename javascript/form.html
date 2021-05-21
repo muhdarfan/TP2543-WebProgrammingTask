@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JavaScript Form Validation</title>
+  <style type="text/css">
+    input, textarea, select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 10px 0px 10px 0px;
+      box-sizing: border-box;
+      border-radius: 5px;
+      font: 100% Lucida Sans, Verdana;
+    }
+
+    body {
+      font: 100% Lucida Sans, Verdana;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input[type=submit], input[type=reset], button {
+      background-color: blue;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      padding: 16px 32px;
+      text-decoration: none;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <form action="#" method="post">
+    <label for="id_name">Name:</label>
+    <input type="text" name="name" id="id_name" required>
+
+    <label for="id_mycard">MyCard Number:</label>
+    <div>
+      <input type="text" name="mycard" id="id_mycard" style="width: 80%" required pattern="\d{6}-\d{2}-\d{4}">
+      <button type="button" name="search" id="is_search" style="width:19%" onclick="return check_mycard()">Validate MyCard</button>
+    </div>
+
+    <label for="id_dob">DOB:</label>
+    <input type="text" name="dob" id="id_dob" required>
+
+    <label for="id_state">State of Birth:</label>
+    <select name="state" id="id_state" required>
+      <option>Select</option>
+      <option value="01">Johor</option>
+      <option value="02">Kedah</option>
+      <option value="03">Kelantan</option>
+      <option value="04">Melaka</option>
+      <option value="05">Negeri Sembilan</option>
+      <option value="06">Pahang</option>
+      <option value="08">Perak</option>
+      <option value="09">Perlis</option>
+      <option value="07">Pulau Pinang</option>
+      <option value="12">Sabah</option>
+      <option value="13">Sarawak</option>
+      <option value="10">Selangor</option>
+      <option value="11">Terengganu</option>
+      <option value="14">Wilayah Persekutuan - Kuala Lumpur</option>
+      <option value="15">Wilayah Persekutuan - Labuan</option>
+      <option value="16">Wilayah Persekutuan - Putrajaya</option>
+    </select>
+
+    <label for="id_sex">Sex:</label>
+    <select name="place" id="id_sex" required>
+      <option>Select</option>
+      <option value="m">Male</option>
+      <option value="f">Female</option>
+    </select>
+
+    <label for="id_myself">Describe About Yourself:</label>
+    <textarea name="myself" id="id_myself" rows="5" required></textarea>
+
+    <input type="submit" name="js_form" value="Submit">
+    <input type="reset">
+  </form>
+
+  <script type="text/javascript">
+    function check_mycard() {
+      var mycard = document.getElementById('id_mycard');
+      if (mycard.value == "") {
+        // show a pop up box says "Please insert your MyCard number"
+        // put cursor inside the MyCard textbox
+        alert("Please insert your MyCard number");
+        mycard.focus();
+        return false;
+      }
+
+      var patt = new RegExp(mycard.getAttribute('pattern'));
+      isValid = patt.test(mycard.value);
+      if(isValid) {
+        //000913-08-1221
+        var ic = mycard.value;
+        var dob = ic.slice(0, 2);
+        var state = ic.slice(7,9);
+        var gender = ic.charAt(13);
+
+        console.log(dob);
+      } else {
+        alert("Please insert a correct MyCard number");
+        mycard.focus();
+      }
+    }
+
+    function setSelectedValue(selectObj, valueToSet) {
+      for (var i = 0; i < selectObj.options.length; i++) {
+        if (selectObj.options[i].value== valueToSet) {
+          selectObj.options[i].selected = true;
+          return;
+        }
+      }
+    }
+
+    function isEven(value){
+      if (value%2 == 0)
+        return true;
+      else
+        return false;
+    }
+  </script>
+</body>
+</html>

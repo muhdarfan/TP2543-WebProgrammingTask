@@ -17,30 +17,39 @@ include_once 'products_crud.php';
     <hr />
     <?php
     if(isset($editrow) && count($editrow) > 0) {
-      echo "<h2>Editing #".$editrow['FLD_PRODUCT_ID']."</h2>";
+      echo "<h2>Editing #".$fID."</h2>";
     }
     ?>
 
     <form action="products.php" method="post">
+      <?php
+      if (isset($_GET['edit']))
+        echo "<input type='hidden' name='pid' value='".$editrow['FLD_PRODUCT_ID']."' />";
+      ?>
       Product ID
-      <input name="pid" type="text" value="<?php if(isset($_GET['edit'])) echo $editrow['FLD_PRODUCT_ID']; ?>" disabled readonly="true"> <br />
+      <input type="text" value="<?php if(isset($_GET['edit'])) echo $fID; else echo $NextID; ?>" disabled readonly="true"> <br />
       Name
       <input name="name" type="text" value="<?php if(isset($_GET['edit'])) echo $editrow['FLD_PRODUCT_NAME']; ?>"> <br />
       Price
       <input name="price" type="text" value="<?php if(isset($_GET['edit'])) echo $editrow['FLD_PRICE']; ?>"> <br />
       Brand
       <select name="brand">
-        <option value="Kawasaki" <?php if(isset($_GET['edit'])) if($editrow['FLD_BRAND']=="Kawasaki") echo "selected"; ?>>Kawasaki</option>
-        <option value="Honda" <?php if(isset($_GET['edit'])) if($editrow['FLD_BRAND']=="Honda") echo "selected"; ?>>Honda</option>
-        <option value="Suzuki" <?php if(isset($_GET['edit'])) if($editrow['FLD_BRAND']=="Suzuki") echo "selected"; ?>>Suzuki</option>
+        <option value="Asrock" <?php if(isset($_GET['edit'])) if($editrow['FLD_BRAND']=="Asrock") echo "selected"; ?>>Asrock</option>
+        <option value="Asus" <?php if(isset($_GET['edit'])) if($editrow['FLD_BRAND']=="Asus") echo "selected"; ?>>Asus</option>
+        <option value="Biostar" <?php if(isset($_GET['edit'])) if($editrow['FLD_BRAND']=="Biostar") echo "selected"; ?>>Biostar</option>
+        <option value="Gigabyte" <?php if(isset($_GET['edit'])) if($editrow['FLD_BRAND']=="Gigabyte") echo "selected"; ?>>Gigabyte</option>
+        <option value="MSI" <?php if(isset($_GET['edit'])) if($editrow['FLD_BRAND']=="MSI") echo "selected"; ?>>MSI</option>
+        <option value="Maxsun" <?php if(isset($_GET['edit'])) if($editrow['FLD_BRAND']=="Maxsun") echo "selected"; ?>>Maxsun</option>
       </select> <br />
       Socket
       <input name="socket" type="text" value="<?php if(isset($_GET['edit'])) echo $editrow['FLD_SOCKET']; ?>"> <br>
       Manufacturing Year
       <select name="year">
-        <option value="2013" <?php if(isset($_GET['edit'])) if($editrow['FLD_MANUFACTURED_YEAR']=="2013") echo "selected"; ?>>2013</option>
-        <option value="2014" <?php if(isset($_GET['edit'])) if($editrow['FLD_MANUFACTURED_YEAR']=="2014") echo "selected"; ?>>2014</option>
-        <option value="2015" <?php if(isset($_GET['edit'])) if($editrow['FLD_MANUFACTURED_YEAR']=="2015") echo "selected"; ?>>2015</option>
+        <?php
+        foreach(range(date('Y'), 2000) as $year) {
+          echo "<option value='{$year}' ".($year == $editrow['FLD_MANUFACTURED_YEAR'] ? 'selected' : '' ).">{$year}</option>";
+        }
+        ?>
       </select> <br />
       Stock
       <input name="stock" type="text" value="<?php if(isset($_GET['edit'])) echo $editrow['FLD_STOCK']; ?>"> <br /><br />
@@ -83,7 +92,7 @@ include_once 'products_crud.php';
         foreach($result as $readrow) {
           ?>   
           <tr>
-            <td><?php echo $readrow['FLD_PRODUCT_ID']; ?></td>
+            <td><?php echo sprintf("MB%03d", $readrow['FLD_PRODUCT_ID']); ?></td>
             <td><?php echo $readrow['FLD_PRODUCT_NAME']; ?></td>
             <td><?php echo $readrow['FLD_PRICE']; ?></td>
             <td><?php echo $readrow['FLD_BRAND']; ?></td>

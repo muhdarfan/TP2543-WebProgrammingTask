@@ -12,17 +12,15 @@ class MyGuestBook extends CI_Controller {
 		$this->load->library('form_validation');
 	}
 
-	function index($error = "") {
+	function index() {
 		$data['title'] = 'MyGuestBook';
-		$data['error'] = $error;
 
 		$this->load->view('mainmenu', $data);
 	}
 
-	public function view($error = "") {
+	public function view() {
 		$data['result'] = $this->myguestbook_model->read(null, null, null);
 		$data['title'] = 'List of All Comments';
-		$data['error'] = $error;
 
 		if ($data['result']) {
 			$this->load->view('list', $data);

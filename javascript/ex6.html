@@ -3,21 +3,16 @@
 <head>
 	<title></title>
 	<script type="text/javascript">
-		function asciiValue() {
-			var character = prompt("Enter character");
-			if (character.charCodeAt(0) >= 65 && character.charCodeAt(0) <= 90) {
-				document.write("Entered value is capital character");
-			} else if (character.charCodeAt(0) >= 97 && character.charCodeAt(0) <= 122) {
-				document.write("Entered value is small character");
-			} else if (character.charCodeAt(0) >= 48 && character.charCodeAt(0) <= 57) {
-				document.write("Entered value is a digit.");
-			} else {
-				document.write("Entered value is a special character");
-			}
-		}
+		var weekDays=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+		document.write(weekDays[0] + "<br />");
+		document.write(weekDays[1] + "<br />");
+		document.write(weekDays[2] + "<br />");
+		document.write(weekDays[3] + "<br />");
+		document.write(weekDays[4] + "<br />");
+		document.write(weekDays[5] + "<br />");
+		document.write(weekDays[6]);
 	</script>
 </head>
 <body>
-	<input type="button" value="click me to enter character" onclick="return asciiValue();" />
 </body>
 </html>

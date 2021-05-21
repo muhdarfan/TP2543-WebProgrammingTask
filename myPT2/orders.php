@@ -17,9 +17,9 @@ include_once 'orders_crud.php';
     <hr>
     <form action="orders.php" method="post">
       Order ID
-      <input name="oid" type="text" readonly value="<?php if(isset($_GET['edit'])) echo $editrow['fld_order_num']; ?>"> <br>
+      <input name="oid" type="text" readonly value="<?php echo (isset($_GET['edit']) ? $_GET['edit'] : uniqid('ODR', true)); ?>"> <br>
       Order Date
-      <input name="orderdate" type="text" readonly value="<?php if(isset($_GET['edit'])) echo $editrow['fld_order_date']; ?>"> <br>
+      <input name="orderdate" type="text" readonly value="<?php echo (isset($_GET['edit']) ? $editrow['fld_order_date'] : date('d-m-Y')); ?>"> <br>
       Staff
       <select name="sid">
         <?php
@@ -35,7 +35,7 @@ include_once 'orders_crud.php';
         }
         foreach($result as $staffrow) {
           ?>
-          <?php if((isset($_GET['edit'])) && ($editrow['FLD_STAFF_ID']==$staffrow['FLD_STAFF_ID'])) { ?>
+          <?php if((isset($_GET['edit'])) && ($editrow['fld_staff_num']==$staffrow['FLD_STAFF_ID'])) { ?>
             <option value="<?php echo $staffrow['FLD_STAFF_ID']; ?>" selected><?php echo $staffrow['FLD_STAFF_NAME'];?></option>
           <?php } else { ?>
             <option value="<?php echo $staffrow['FLD_STAFF_ID']; ?>"><?php echo $staffrow['FLD_STAFF_NAME'];?></option>
@@ -59,13 +59,11 @@ include_once 'orders_crud.php';
         echo "Error: " . $e->getMessage();
       }
       foreach($result as $custrow) {
-        ?>
-        <?php if((isset($_GET['edit'])) && ($editrow['FLD_CUSTOMER_ID']==$custrow['FLD_CUSTOMER_ID'])) { ?>
+        if((isset($_GET['edit'])) && ($editrow['fld_customer_num']==$custrow['FLD_CUSTOMER_ID'])) { ?>
           <option value="<?php echo $custrow['FLD_CUSTOMER_ID']; ?>" selected><?php echo $custrow['FLD_CUSTOMER_NAME'];?></option>
         <?php } else { ?>
           <option value="<?php echo $custrow['FLD_CUSTOMER_ID']; ?>"><?php echo $custrow['FLD_CUSTOMER_NAME'];?></option>
-        <?php } ?>
-        <?php
+        <?php }
       } // while
       $conn = null;
       ?> 
@@ -92,7 +90,7 @@ include_once 'orders_crud.php';
       $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       $sql = "SELECT * FROM tbl_orders_a174652, tbl_staffs_a174652_pt2, tbl_customers_a174652_pt2 WHERE ";
       $sql = $sql."tbl_orders_a174652.fld_staff_num = tbl_staffs_a174652_pt2.FLD_STAFF_ID and ";
-      $sql = $sql."tbl_orders_a174652.fld_customer_num = tbl_customers_a174652_pt2.FLD_CUSTOMER_ID";
+      $sql = $sql."tbl_orders_a174652.fld_customer_num = tbl_customers_a174652_pt2.FLD_CUSTOMER_ID ORDER BY tbl_orders_a174652.fld_order_date DESC";
       $stmt = $conn->prepare($sql);
       $stmt->execute();
       $result = $stmt->fetchAll();

@@ -8,7 +8,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.php">MyBike</a>
+      <a class="navbar-brand" href="index.php">EagleZ Computer Shop</a>
     </div>
     
     <!-- Collect the nav links, forms, and other content for toggling -->

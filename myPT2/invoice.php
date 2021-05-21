@@ -9,12 +9,13 @@
 </head>
 <body>
   <center>
-    EagleZ Sdn. Bhd. <br>
-    Address 1 <br>
-    Address 2 <br>
-    Postcode <br>
-    State <br>
-    <hr>
+    <strong>EagleZ Computer Shop Enterprise</strong> <br />
+    B12-1, Blok B, <br />
+    Jalan Dato Seri Ahmad Said,<br />
+    30450 Ipoh,<br />
+    Perak.<br />
+    <hr/>
+
     <?php
     try {
       $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -35,11 +36,11 @@
     }
     $conn = null;
     ?>
-    Order ID: <?php echo $readrow['fld_order_num'] ?>
+    Order ID: <?php echo $readrow['fld_order_num'] ?> |
     Order Date: <?php echo $readrow['fld_order_date'] ?>
     <hr>
-    Staff: <?php echo $readrow['FLD_STAFF_NAME']; ?>
-    Customer ID: <?php echo $readrow['FLD_CUSTOMER_NAME']; ?>
+    Staff: <?php echo $readrow['FLD_STAFF_NAME']; ?> | 
+    Customer ID: <?php echo $readrow['FLD_CUSTOMER_NAME']; ?> |
     Date: <?php echo date("d M Y"); ?>
     <hr>
     <table border="1">
@@ -74,8 +75,8 @@
         <td><?php echo $counter; ?></td>
         <td><?php echo $detailrow['FLD_PRODUCT_NAME']; ?></td>
         <td><?php echo $detailrow['fld_order_detail_quantity']; ?></td>
-        <td><?php echo $detailrow['FLD_PRICE']; ?></td>
-        <td><?php echo $detailrow['FLD_PRICE']*$detailrow['fld_order_detail_quantity']; ?></td>
+        <td><?php echo number_format($detailrow['FLD_PRICE'], 2); ?></td>
+        <td><?php echo number_format($detailrow['FLD_PRICE']*$detailrow['fld_order_detail_quantity'], 2); ?></td>
       </tr>
       <?php
         $grandtotal = $grandtotal + $detailrow['FLD_PRICE']*$detailrow['fld_order_detail_quantity'];
@@ -85,7 +86,7 @@
       ?>
       <tr>
         <td colspan="4" align="right">Grand Total</td>
-        <td><?php echo $grandtotal ?></td>
+        <td><?php echo number_format($grandtotal, 2) ?></td>
       </tr>
     </table>
     <hr>

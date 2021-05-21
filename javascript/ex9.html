@@ -3,16 +3,17 @@
 <head>
 	<title></title>
 	<script type="text/javascript">
-		function count(minValue, maxValue) {
-			while (minValue <= maxValue) {
-				document.write(minValue);
-				document.write("<br>");
-				minValue++;
+		function createArray() {
+			var elements = prompt("Enter comma separated array values :");
+			elements = elements.split(",");
+			document.write("array elements are : ");
+			for (i =0;i<elements.length;i++) {
+				document.write(elements[i] + " ");
 			}
 		}
 	</script>
 </head>
 <body>
-	<input type="button" value="click me to check output" onclick="return count(20, 30);" />
+	<input type="button" value="click me to create array" onclick="return createArray();">
 </body>
 </html>

@@ -35,7 +35,7 @@ if (isset($_POST['add_form'])) {
 
     $stmt->execute();
 
-    echo "New records created successfully";
+    echo "New records created successfully. Click <a href='index.php'>here</a> to go back.";
   }
 
   catch(PDOException $e)

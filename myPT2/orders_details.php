@@ -62,7 +62,7 @@ include_once 'orders_details_crud.php';
         ?>
       </select>
       Quantity
-      <input name="quantity" type="number" min="1" max="<?php echo $productrow['FLD_STOCK']; ?>">
+      <input name="quantity" type="number" min="1">
       <input name="oid" type="hidden" value="<?php echo $readrow['fld_order_num']; ?>">
       <button type="submit" name="addproduct">Add Product</button>
       <button type="reset">Clear</button>

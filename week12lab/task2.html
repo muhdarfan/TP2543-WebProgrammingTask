@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Bike Ordering System : Products</title>
+  <style type="text/css">
+    #logo {
+      width:80px;
+      height:80px;
+      position:absolute;
+      right:10px;
+      bottom:10px;
+      background-color:red;
+      text-align:center;
+      vertical-align:middle;
+      line-height: 80px;
+    }
+    .formlabel {
+      font-weight: bold;
+    }
+  </style>
+  <script src="jquery-3.6.0.min.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $("#btn_menu").click(function(event) {
+        $("#menu").toggle();
+      });
+    });
+  </script>
+
+</head>
+<body>
+  <center>
+    <button id="btn_menu">Menu</button>
+    <div id="menu">
+      <a href="index.php">Home</a> |
+      <a href="products.php">Products</a> |
+      <a href="customers.php">Customers</a> |
+      <a href="staffs.php">Staffs</a> |
+      <a href="orders.php">Orders</a>
+    </div>
+    <hr>
+    <form action="products.php" method="post">
+      <label for="pid_id" class="formlabel">Product ID</label>
+      <input name="pid" id="pid_id" type="text"> <br>
+      <label for="name_id" class="formlabel">Name</label>
+      <input name="name" id="name_id" type="text"> <br>
+      <label for="price_id" class="formlabel">Price</label>
+      <input name="price" id="price_id" type="text"> <br>
+      <label for="brand_id" class="formlabel">Brand</label>
+      <select name="brand" id="brand_id">
+        <option value="Kawasaki">Kawasaki</option>
+        <option value="Honda">Honda</option>
+        <option value="Suzuki">Suzuki</option>
+      </select> <br>
+      <label for="cond_new" class="formlabel">Condition</label>
+      <input name="cond" id="cond_new" type="radio" value="New"> New
+      <input name="cond" id="cond_used" type="radio" value="Used"> Used <br>
+      <label for="year_id" class="formlabel">Manufacturing Year</label>
+      <select name="year" id="year_id">
+        <option value="2013">2013</option>
+        <option value="2014">2014</option>
+        <option value="2015">2015</option>
+      </select> <br>
+      <label for="q_id" class="formlabel">Quantity</label>
+      <input name="quantity" id="q_id" type="text"> <br>
+      <button type="submit" name="create" id="btn_create">Create</button>
+      <button type="reset" id="btn_clear">Clear</button>
+    </form>
+    <hr>
+    <table border="1">
+      <tr>
+        <td>Product ID</td>
+        <td>Name</td>
+        <td>Price</td>
+        <td>Brand</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>P001</td>
+        <td>Ninja Zx-14r Abs 30th Anniversary</td>
+        <td>15800</td>
+        <td>Kawasaki</td>
+        <td>
+          <a href="products_details.php">Details</a>
+          <a href="products.php">Edit</a>
+          <a href="products.php">Delete</a>
+        </td>
+      </tr>
+      <tr>
+        <td>P002</td>
+        <td>Cb500 X 2016</td>
+        <td>12500</td>
+        <td>Honda</td>
+        <td>
+          <a href="products_details.php">Details</a>
+          <a href="products.php">Edit</a>
+          <a href="products.php">Delete</a>
+        </td>
+      </tr>
+      <tr>
+        <td>P003</td>
+        <td>GSX-S1000F</td>
+        <td>9200</td>
+        <td>Suzuki</td>
+        <td>
+          <a href="products_details.php">Details</a>
+          <a href="products.php">Edit</a>
+          <a href="products.php">Delete</a>
+        </td>
+      </tr>
+    </table>
+  </center>
+  <div id="logo">MyBike</div>
+</body>
+</html>

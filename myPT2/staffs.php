@@ -16,8 +16,13 @@
     <a href="orders.php">Orders</a>
     <hr>
     <form action="staffs.php" method="post">
-      Customer ID
-      <input name="sid" type="text" value="<?php if(isset($_GET['edit'])) echo $editrow['FLD_STAFF_ID']; ?>"> <br />
+      <?php
+      if (isset($_GET['edit'])) {
+        echo '<input type="hidden" name="sid" value="'.$editrow['FLD_STAFF_ID'].'" />';
+      }
+      ?>
+      Staff ID
+      <input type="text" value="<?php echo (isset($_GET['edit']) ? $fid : $NextID); ?>"> <br />
       Full Name
       <input name="name" type="text" value="<?php if(isset($_GET['edit'])) echo $editrow['FLD_STAFF_NAME']; ?>"> <br />
       Gender
@@ -57,7 +62,7 @@
       foreach($result as $readrow) {
       ?>
       <tr>
-        <td><?php echo $readrow['FLD_STAFF_ID']; ?></td>
+        <td><?php echo sprintf("S%03d", $readrow['FLD_STAFF_ID']); ?></td>
         <td><?php echo $readrow['FLD_STAFF_NAME']; ?></td>
         <td><?php echo ucfirst($readrow['FLD_STAFF_GENDER']); ?></td>
         <td><?php echo $readrow['FLD_STAFF_PHONE']; ?></td>

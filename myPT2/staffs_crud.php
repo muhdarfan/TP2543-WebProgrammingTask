@@ -10,16 +10,15 @@ if (isset($_POST['create'])) {
 
   try {
 
-    $stmt = $conn->prepare("INSERT INTO tbl_staffs_a174652_pt2(FLD_STAFF_ID, FLD_STAFF_NAME, FLD_STAFF_GENDER, fld_staff_phone) VALUES(:sid, :name, :gender, :phone)");
+    $stmt = $conn->prepare("INSERT INTO tbl_staffs_a174652_pt2(FLD_STAFF_NAME, FLD_STAFF_GENDER, fld_staff_phone) VALUES( :name, :gender, :phone)");
 
-    $stmt->bindParam(':sid', $sid, PDO::PARAM_INT);
+    //$stmt->bindParam(':sid', $sid, PDO::PARAM_INT);
     $stmt->bindParam(':name', $name, PDO::PARAM_STR);
     $stmt->bindParam(':gender', $gender, PDO::PARAM_STR);
     $stmt->bindParam(':phone', $phone, PDO::PARAM_STR);
 
-    $sid = $_POST['sid'];
+    //$sid = $_POST['sid'];
     $name = $_POST['name'];
-    $lname = $_POST['lname'];
     $gender =  $_POST['gender'];
     $phone = $_POST['phone'];
 
@@ -94,6 +93,7 @@ if (isset($_GET['edit'])) {
     $stmt->bindParam(':sid', $sid, PDO::PARAM_INT);
 
     $sid = $_GET['edit'];
+    $fid = sprintf("S%03d", $sid);
 
     $stmt->execute();
 
@@ -105,6 +105,10 @@ if (isset($_GET['edit'])) {
     echo "Error: " . $e->getMessage();
   }
 }
+
+// GET NEXT ID
+$staff = $conn->query("SHOW TABLE STATUS LIKE 'tbl_staffs_a174652_pt2'")->fetch();
+$NextID = sprintf("S%03d", $staff['Auto_increment']);
 
 $conn = null;
 

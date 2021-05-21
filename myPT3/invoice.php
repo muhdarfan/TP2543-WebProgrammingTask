@@ -5,10 +5,10 @@ include_once 'database.php';
 try {
   $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  $stmt = $conn->prepare("SELECT * FROM tbl_orders_a174652, tbl_staffs_a174652,
-    tbl_customers_a174652, tbl_orders_details_a174652 WHERE
-    tbl_orders_a174652.fld_staff_num = tbl_staffs_a174652.fld_staff_num AND
-    tbl_orders_a174652.fld_customer_num = tbl_customers_a174652.fld_customer_num AND
+  $stmt = $conn->prepare("SELECT * FROM tbl_orders_a174652, tbl_staffs_a174652_pt2,
+    tbl_customers_a174652_pt2, tbl_orders_details_a174652 WHERE
+    tbl_orders_a174652.fld_staff_num = tbl_staffs_a174652_pt2.FLD_STAFF_ID AND
+    tbl_orders_a174652.fld_customer_num = tbl_customers_a174652_pt2.FLD_CUSTOMER_ID AND
     tbl_orders_a174652.fld_order_num = tbl_orders_details_a174652.fld_order_num AND
     tbl_orders_a174652.fld_order_num = :oid");
   $stmt->bindParam(':oid', $oid, PDO::PARAM_STR);
@@ -41,7 +41,7 @@ $conn = null;
     <![endif]-->
   </head>
   <body>
-   
+
     <div class="row">
       <div class="col-xs-6 text-center">
         <br>
@@ -58,14 +58,14 @@ $conn = null;
       <div class="col-xs-5">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h4>From: My Bike Sdn. Bhd.</h4>
+            <h4>From: EagleZ Computer Shop Enterprise</h4>
           </div>
           <div class="panel-body">
             <p>
-              Address 1 <br>
-              Address 2 <br>
-              Postcode City <br>
-              State <br>
+              B12-1, Blok B, <br />
+              Jalan Dato Seri Ahmad Said,<br />
+              30450 Ipoh,<br />
+              Perak.<br />
             </p>
           </div>
         </div>
@@ -73,14 +73,14 @@ $conn = null;
       <div class="col-xs-5 col-xs-offset-2 text-right">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h4>To : <?php echo $readrow['fld_customer_fname']." ".$readrow['fld_customer_lname'] ?></h4>
+            <h4>To : <?php echo $readrow['FLD_CUSTOMER_NAME']; ?></h4>
           </div>
           <div class="panel-body">
             <p>
-              Address 1 <br>
-              Address 2 <br>
-              Postcode City <br>
-              State <br>
+              <?php
+              $line = explode(',', $readrow['FLD_CUSTOMER_ADDRESS']);
+              echo join($line, ',<br />');
+              ?>
             </p>
           </div>
         </div>
@@ -102,8 +102,8 @@ $conn = null;
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $stmt = $conn->prepare("SELECT * FROM tbl_orders_details_a174652,
-          tbl_products_a174652 where 
-          tbl_orders_details_a174652.fld_product_num = tbl_products_a174652.fld_product_num AND
+          tbl_products_a174652_pt2 where 
+          tbl_orders_details_a174652.fld_product_num = tbl_products_a174652_pt2.FLD_PRODUCT_ID AND
           fld_order_num = :oid");
         $stmt->bindParam(':oid', $oid, PDO::PARAM_STR);
         $oid = $_GET['oid'];
@@ -117,19 +117,19 @@ $conn = null;
         ?>
         <tr>
           <td><?php echo $counter; ?></td>
-          <td><?php echo $detailrow['fld_product_name']; ?></td>
+          <td><?php echo $detailrow['FLD_PRODUCT_NAME']; ?></td>
           <td class="text-right"><?php echo $detailrow['fld_order_detail_quantity']; ?></td>
-          <td class="text-right"><?php echo $detailrow['fld_product_price']; ?></td>
-          <td class="text-right"><?php echo $detailrow['fld_product_price']*$detailrow['fld_order_detail_quantity']; ?></td>
+          <td class="text-right"><?php echo $detailrow['FLD_PRICE']; ?></td>
+          <td class="text-right"><?php echo number_format($detailrow['FLD_PRICE']*$detailrow['fld_order_detail_quantity'], 2); ?></td>
         </tr>
         <?php
-        $grandtotal = $grandtotal + $detailrow['fld_product_price']*$detailrow['fld_order_detail_quantity'];
+        $grandtotal = $grandtotal + $detailrow['FLD_PRICE']*$detailrow['fld_order_detail_quantity'];
         $counter++;
   } // while
   ?>
   <tr>
     <td colspan="4" class="text-right">Grand Total</td>
-    <td class="text-right"><?php echo $grandtotal ?></td>
+    <td class="text-right"><?php echo number_format($grandtotal, 2); ?></td>
   </tr>
 </table>
 
@@ -155,8 +155,8 @@ $conn = null;
           <h4>Contact Details</h4>
         </div>
         <div class="panel-body">
-          <p> Staff: <?php echo $readrow['fld_staff_fname']." ".$readrow['fld_staff_lname'] ?> </p>
-          <p> Email: <?php echo $readrow['fld_staff_email'] ?> </p>
+          <p> Staff: <?php echo $readrow['FLD_STAFF_NAME']; ?> </p>
+          <p> Phone: <?php echo $readrow['FLD_STAFF_PHONE'] ?> </p>
           <p><br></p>
           <p><br></p>
           <p>Computer-generated invoice. No signature is required.</p>

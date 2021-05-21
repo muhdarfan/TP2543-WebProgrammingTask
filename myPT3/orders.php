@@ -9,7 +9,7 @@ include_once 'orders_crud.php';
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-  <title>My Bike Ordering System : Orders</title>
+  <title>My Motherboard Ordering System : Orders</title>
   <!-- Bootstrap -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -32,14 +32,14 @@ include_once 'orders_crud.php';
           <div class="form-group">
             <label for="orderid" class="col-sm-3 control-label">Order ID</label>
             <div class="col-sm-9">
-              <input name="oid" type="text" class="form-control" id="orderid" placeholder="Order ID" readonly value="<?php if(isset($_GET['edit'])) echo $editrow['fld_order_num']; ?>">
+              <input name="oid" type="text" class="form-control" id="orderid" placeholder="Order ID" readonly value="<?php echo (isset($_GET['edit']) ? $_GET['edit'] : uniqid('ODR', true)); ?>">
             </div>
           </div>
 
           <div class="form-group">
             <label for="orderdate" class="col-sm-3 control-label">Order Date</label>
             <div class="col-sm-9">
-              <input name="orderdate" type="text" class="form-control" id="orderdate" placeholder="Order Date" readonly value="<?php if(isset($_GET['edit'])) echo $editrow['fld_order_date']; ?>">
+              <input name="orderdate" type="text" class="form-control" id="orderdate" placeholder="Order Date" readonly value="<?php echo (isset($_GET['edit']) ? $editrow['fld_order_date'] : date('d-m-Y')); ?>">
             </div>
           </div>
 
@@ -51,7 +51,7 @@ include_once 'orders_crud.php';
                 try {
                   $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
                   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                  $stmt = $conn->prepare("SELECT * FROM tbl_staffs_a174652");
+                  $stmt = $conn->prepare("SELECT * FROM tbl_staffs_a174652_pt2");
                   $stmt->execute();
                   $result = $stmt->fetchAll();
                 }
@@ -60,10 +60,10 @@ include_once 'orders_crud.php';
                 }
                 foreach($result as $staffrow) {
                   ?>
-                  <?php if((isset($_GET['edit'])) && ($editrow['fld_staff_num']==$staffrow['fld_staff_num'])) { ?>
-                    <option value="<?php echo $staffrow['fld_staff_num']; ?>" selected><?php echo $staffrow['fld_staff_fname']." ".$staffrow['fld_staff_lname'];?></option>
+                  <?php if((isset($_GET['edit'])) && ($editrow['fld_staff_num']==$staffrow['FLD_STAFF_ID'])) { ?>
+                    <option value="<?php echo $staffrow['FLD_STAFF_ID']; ?>" selected><?php echo $staffrow['FLD_STAFF_NAME'];?></option>
                   <?php } else { ?>
-                    <option value="<?php echo $staffrow['fld_staff_num']; ?>"><?php echo $staffrow['fld_staff_fname']." ".$staffrow['fld_staff_lname'];?></option>
+                    <option value="<?php echo $staffrow['FLD_STAFF_ID']; ?>"><?php echo $staffrow['FLD_STAFF_NAME'];?></option>
                   <?php } ?>
                   <?php
                 } // while
@@ -81,7 +81,7 @@ include_once 'orders_crud.php';
                 try {
                   $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
                   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                  $stmt = $conn->prepare("SELECT * FROM tbl_customers_a174652");
+                  $stmt = $conn->prepare("SELECT * FROM tbl_customers_a174652_pt2");
                   $stmt->execute();
                   $result = $stmt->fetchAll();
                 }
@@ -90,10 +90,10 @@ include_once 'orders_crud.php';
                 }
                 foreach($result as $custrow) {
                   ?>
-                  <?php if((isset($_GET['edit'])) && ($editrow['fld_customer_num']==$custrow['fld_customer_num'])) { ?>
-                    <option value="<?php echo $custrow['fld_customer_num']; ?>" selected><?php echo $custrow['fld_customer_fname']." ".$custrow['fld_customer_lname']?></option>
+                  <?php if((isset($_GET['edit'])) && ($editrow['fld_customer_num']==$custrow['FLD_CUSTOMER_ID'])) { ?>
+                    <option value="<?php echo $custrow['FLD_CUSTOMER_ID']; ?>" selected><?php echo $custrow['FLD_CUSTOMER_NAME']; ?></option>
                   <?php } else { ?>
-                    <option value="<?php echo $custrow['fld_customer_num']; ?>"><?php echo $custrow['fld_customer_fname']." ".$custrow['fld_customer_lname']?></option>
+                    <option value="<?php echo $custrow['FLD_CUSTOMER_ID']; ?>"><?php echo $custrow['FLD_CUSTOMER_NAME']; ?></option>
                   <?php } ?>
                   <?php 
                   } // while
@@ -145,9 +145,9 @@ include_once 'orders_crud.php';
             try {
               $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
               $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-              $sql = "SELECT * FROM tbl_orders_a174652, tbl_staffs_a174652, tbl_customers_a174652 WHERE ";
-              $sql = $sql."tbl_orders_a174652.fld_staff_num = tbl_staffs_a174652.fld_staff_num and ";
-              $sql = $sql."tbl_orders_a174652.fld_customer_num = tbl_customers_a174652.fld_customer_num LIMIT {$start_from}, {$per_page}";
+              $sql = "SELECT * FROM tbl_orders_a174652, tbl_staffs_a174652_pt2, tbl_customers_a174652_pt2 WHERE ";
+              $sql = $sql."tbl_orders_a174652.fld_staff_num = tbl_staffs_a174652_pt2.FLD_STAFF_ID and ";
+              $sql = $sql."tbl_orders_a174652.fld_customer_num = tbl_customers_a174652_pt2.FLD_CUSTOMER_ID ORDER BY tbl_orders_a174652.fld_order_date DESC LIMIT {$start_from}, {$per_page}";
               $stmt = $conn->prepare($sql);
               $stmt->execute();
               $result = $stmt->fetchAll();
@@ -160,8 +160,8 @@ include_once 'orders_crud.php';
               <tr>
                 <td><?php echo $orderrow['fld_order_num']; ?></td>
                 <td><?php echo $orderrow['fld_order_date']; ?></td>
-                <td><?php echo $orderrow['fld_staff_fname']." ".$orderrow['fld_staff_lname'] ?></td>
-                <td><?php echo $orderrow['fld_customer_fname']." ".$orderrow['fld_customer_lname'] ?></td>
+                <td><?php echo $orderrow['FLD_STAFF_NAME']; ?></td>
+                <td><?php echo $orderrow['FLD_CUSTOMER_NAME']; ?></td>
                 <td>
                   <a href="orders_details.php?oid=<?php echo $orderrow['fld_order_num']; ?>" class="btn btn-warning btn-xs" role="button"> Details </a>
                   <a href="orders.php?edit=<?php echo $orderrow['fld_order_num']; ?>" class="btn btn-success btn-xs" role="button"> Edit </a>
@@ -182,9 +182,9 @@ include_once 'orders_crud.php';
               try {
                 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $sql = "SELECT * FROM tbl_orders_a174652, tbl_staffs_a174652, tbl_customers_a174652 WHERE ";
-                $sql = $sql."tbl_orders_a174652.fld_staff_num = tbl_staffs_a174652.fld_staff_num and ";
-                $sql = $sql."tbl_orders_a174652.fld_customer_num = tbl_customers_a174652.fld_customer_num LIMIT {$start_from}, {$per_page}";
+                $sql = "SELECT * FROM tbl_orders_a174652, tbl_staffs_a174652_pt2, tbl_customers_a174652_pt2 WHERE ";
+                $sql = $sql."tbl_orders_a174652.fld_staff_num = tbl_staffs_a174652_pt2.FLD_STAFF_ID and ";
+                $sql = $sql."tbl_orders_a174652.fld_customer_num = tbl_customers_a174652_pt2.FLD_CUSTOMER_ID LIMIT {$start_from}, {$per_page}";
                 $stmt = $conn->prepare($sql);
                 $stmt->execute();
                 $result = $stmt->fetchAll();

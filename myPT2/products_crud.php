@@ -10,20 +10,20 @@ if (isset($_POST['create'])) {
 
   try {
 
-    $stmt = $conn->prepare("INSERT INTO tbl_products_a174652_pt2(FLD_PRODUCT_ID,
+    $stmt = $conn->prepare("INSERT INTO tbl_products_a174652_pt2(
       FLD_PRODUCT_NAME, FLD_PRICE, FLD_BRAND, FLD_SOCKET,
-      FLD_MANUFACTURED_YEAR, FLD_STOCK) VALUES(:pid, :name, :price, :brand,
+      FLD_MANUFACTURED_YEAR, FLD_STOCK) VALUES(:name, :price, :brand,
       :socket, :year, :stock)");
 
-    $stmt->bindParam(':pid', $pid, PDO::PARAM_INT);
+    //$stmt->bindParam(':pid', $pid, PDO::PARAM_INT);
     $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-    $stmt->bindParam(':price', $price, PDO::PARAM_INT);
+    $stmt->bindParam(':price', $price, PDO::PARAM_STR);
     $stmt->bindParam(':brand', $brand, PDO::PARAM_STR);
     $stmt->bindParam(':socket', $socket, PDO::PARAM_STR);
     $stmt->bindParam(':year', $year, PDO::PARAM_INT);
     $stmt->bindParam(':stock', $stock, PDO::PARAM_INT);
 
-    $pid = $_POST['pid'];
+    //$pid = $_POST['pid'];
     $name = $_POST['name'];
     $price = $_POST['price'];
     $brand =  $_POST['brand'];
@@ -52,7 +52,7 @@ if (isset($_POST['update'])) {
 
     $stmt->bindParam(':pid', $pid, PDO::PARAM_INT);
     $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-    $stmt->bindParam(':price', $price, PDO::PARAM_INT);
+    $stmt->bindParam(':price', $price, PDO::PARAM_STR);
     $stmt->bindParam(':brand', $brand, PDO::PARAM_STR);
     $stmt->bindParam(':socket', $socket, PDO::PARAM_STR);
     $stmt->bindParam(':year', $year, PDO::PARAM_INT);
@@ -115,7 +115,7 @@ if (isset($_GET['edit'])) {
     $stmt->execute();
 
     $editrow = $stmt->fetch(PDO::FETCH_ASSOC);
-    $editrow['FLD_PRODUCT_ID'] = sprintf("MB%03d", $editrow['FLD_PRODUCT_ID']);
+    $fID = sprintf("MB%03d", $editrow['FLD_PRODUCT_ID']);
   }
 
   catch(PDOException $e)
@@ -123,6 +123,10 @@ if (isset($_GET['edit'])) {
     echo "Error: " . $e->getMessage();
   }
 }
+
+// GET LAST ID
+$product = $conn->query("SHOW TABLE STATUS LIKE 'tbl_products_a174652_pt2'")->fetch();
+$NextID = sprintf("MB%03d", $product['Auto_increment']);
 
 $conn = null;
 ?>

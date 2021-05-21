@@ -10,15 +10,15 @@ if (isset($_POST['create'])) {
 
   try {
 
-    $stmt = $conn->prepare("INSERT INTO tbl_customers_a174652_pt2(FLD_CUSTOMER_ID, FLD_CUSTOMER_NAME, FLD_CUSTOMER_ADDRESS, FLD_CUSTOMER_PHONE) VALUES(:cid, :name,
+    $stmt = $conn->prepare("INSERT INTO tbl_customers_a174652_pt2(FLD_CUSTOMER_NAME, FLD_CUSTOMER_ADDRESS, FLD_CUSTOMER_PHONE) VALUES(:name,
       :address, :phone)");
 
-    $stmt->bindParam(':cid', $cid, PDO::PARAM_INT);
+    //$stmt->bindParam(':cid', $cid, PDO::PARAM_INT);
     $stmt->bindParam(':name', $name, PDO::PARAM_STR);
     $stmt->bindParam(':address', $address, PDO::PARAM_STR);
     $stmt->bindParam(':phone', $phone, PDO::PARAM_STR);
 
-    $cid = $_POST['cid'];
+    //$cid = $_POST['cid'];
     $name = $_POST['name'];
     $address =  $_POST['address'];
     $phone = $_POST['phone'];
@@ -46,7 +46,7 @@ if (isset($_POST['update'])) {
     $stmt->bindParam(':name', $name, PDO::PARAM_STR);
     $stmt->bindParam(':address', $address, PDO::PARAM_STR);
     $stmt->bindParam(':phone', $phone, PDO::PARAM_STR);
-    $stmt->bindParam(':oldcid', $oldcid, PDO::PARAM_STR);
+    $stmt->bindParam(':oldcid', $oldcid, PDO::PARMA_INT);
 
     $cid = $_POST['cid'];
     $name = $_POST['name'];
@@ -93,10 +93,10 @@ if (isset($_GET['edit'])) {
   try {
 
     $stmt = $conn->prepare("SELECT * FROM tbl_customers_a174652_pt2 WHERE FLD_CUSTOMER_ID = :cid");
-
     $stmt->bindParam(':cid', $cid, PDO::PARAM_INT);
 
     $cid = $_GET['edit'];
+    $fid = sprintf("C%03d", $cid);
 
     $stmt->execute();
 
@@ -108,6 +108,10 @@ if (isset($_GET['edit'])) {
     echo "Error: " . $e->getMessage();
   }
 }
+
+// GET NEXT ID
+$cust = $conn->query("SHOW TABLE STATUS LIKE 'tbl_customers_a174652_pt2'")->fetch();
+$NextID = sprintf("C%03d", $cust['Auto_increment']);
 
 $conn = null;
 
