@@ -3,6 +3,7 @@
 /pt1/products/*
 /pt2/products/*
 *.png
+!UKM_logo_4C_teks-hitam.png
 *.jpg
 database.php
 db.php
