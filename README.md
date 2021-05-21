@@ -26,7 +26,9 @@
 | ------ | ------ |
 | [Assignment 1 - Biodata Form (Week 3)](week3lab/a174652.html) | ✔️ |
 | [Assignment 2 - Guestbook System (Week 5)](assignment2/) | ✔️ |
+
 | Project | Status |
+| ------ | ------ |
 | [Task 1 - HTML](myPT1/) | ✔️ |
 | [Task 2 - PHP & Database](myPT2/) | ✔️ |
 | [Task 3 - Javascript & Bootstrap](myPT3/) | ✔️ |
