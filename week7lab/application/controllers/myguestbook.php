@@ -27,7 +27,7 @@ class MyGuestBook extends CI_Controller {
 		} else {
 			// 2 ways
 			// $this->index();
-			redirect(base_url() . "/myguestbook/");
+			redirect(base_url() . "myguestbook/");
 		}
 	}
 
@@ -60,12 +60,12 @@ class MyGuestBook extends CI_Controller {
 			}
 		}
 		else {
-			$this->load->view('form');  
+			$data['title'] = 'Create';
+			$this->load->view('form', $data);
 		}
 	}
 
 	public function edit() {
-
 		if ($this->input->post('form-submitted') == "edit") {
 			$id = $this->uri->segment(3);
 			$name = $this->input->post("name");
@@ -99,6 +99,8 @@ class MyGuestBook extends CI_Controller {
 			$data['result'] = $this->myguestbook_model->read(array('id' => $id), null, null);
 
 			if ($data['result']) {
+				$data['title'] = ' Editing #' . $id;
+
 				$this->load->view('edit', $data);
 			} else {
 				// 2 ways

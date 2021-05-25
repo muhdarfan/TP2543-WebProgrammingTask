@@ -18,15 +18,19 @@
       line-height: 1.8;
     }
     .bg-1 {
-      background-color: #f4511e; /* Orange */
+      background: linear-gradient(90deg, rgba(0, 79, 70, 1) 0%, rgba(0, 122, 61, 1) 0%, rgba(0, 77, 20, 1) 100%);
+      /*background-color: rgba(0,122,61,255); /* Orange */
       color: #ffffff;
     }
     .bg-2 {
-      background-color: #333399; /* Dark Blue */
+      background: linear-gradient(175deg, rgba(44, 44, 44, 1) 0%, rgba(69, 72, 76, 1) 0%, rgba(92, 103, 110, 1) 100%);
+      /*background-color: #2c2c2c; Dark Blue */
       color: #ffffff;
     }
     .bg-3 {
-      background-color: #ffffff; /* White */
+      background-color: #ffffff;
+      background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%);
+      /* background-color: #ffffff; White */
       color: #555555;
     }
     .container-fluid {
@@ -52,6 +56,20 @@
       font-size: 20px;
       margin-bottom: 20px;
       color: #f4511e;
+    }
+    .arrow-down {
+      width: 0; 
+      height: 0; 
+      border-left: 200px solid transparent;
+      border-right: 200px solid transparent;
+      z-index: 1;
+
+      margin-top: -70px;
+      border-top: 200px solid #f00;
+      position: absolute;
+      left: 39.5%;
+      width: 100px;
+      height: 100px;
     }
   </style>
 </head>
@@ -79,80 +97,83 @@
   </nav>
 
   <div class="container-fluid bg-1 text-center" id="hello">
-    <h3>Hello</h3>
-    <img src="https://gambarpel.ukm.my/images/A174652.jpg" class="img-circle" alt="Myself">
-    <h3>I'm Arfan</h3>
+    <div class="arrow-down"></div>
+    <div style="z-index: 9999;">
+      <h3>&#65021</h3>
+      <img src="https://gambarpel.ukm.my/images/A174652.jpg" class="img-circle" alt="Myself">
+      <h3>Saya Arfan</h3>
+    </div>
   </div>
 
   <div class="container-fluid bg-2 text-center" id="who">
-    <h3>Who Am I?</h3>
+    <h3>Siapakah Saya?</h3>
     <div class="row">
       <div class="col-sm-4">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua.</p>
-        <img src="lecturer.jpg" class="img-responsive" alt="Image" style="display:inline">
+        <p>.</p>
+        <img src="i.jpg" class="img-responsive img-rounded" alt="Image" style="display:inline;height: 300px;width: 480px;box-shadow: 0px 0px 20px #888888;">
       </div>
       <div class="col-sm-4">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua.</p>
-        <img src="darwin.jpg" class="img-responsive" alt="Image" style="display:inline">
+        <p>Penggemar makanan.</p>
+        <img src="food.jpg" class="img-responsive img-rounded" alt="Image" style="display:inline;height: 300px;width: 480px;box-shadow: 0px 0px 20px #888888;">
       </div>
       <div class="col-sm-4">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua.</p>
-        <img src="am.jpg" class="img-responsive" alt="Image" style="display:inline">
+        <p>Seorang yang tegar dalam mengembara serta memanjat bukit bersama rakan-rakan. Sukan ini sering dilakukan 2-3 kali seminggu untuk menenangkan fikiran dan mendapatkan kedamaian alam kehijauan.</p>
+        <img src="hiker.jpg" class="img-responsive img-rounded" alt="Image" style="display:inline;height: 300px;width: 480px;box-shadow: 0px 0px 20px #888888;">
       </div>
     </div>
   </div>
 
   <div class="container-fluid bg-3 text-center" id="where">
     <h3>Where To Find Me?</h3>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    <p>Di mana kan ku cari ganti,
+      Serupa dengan mu,
+      Tak sanggup ku berpisah,
+      Dan berhati patah, hidup gelisah,
+      Alangkah pedih rasa hati,
+      Selama kau pergi,
+      Tinggalku sendirian,
+      Tiada berteman dalam kesepian
     </p>
     <a href="https://instagram.com/mh.darfan" target="_blank" class="btn btn-default btn-lg">
       <span class="glyphicon glyphicon-search"></span> Search
     </a>
   </div>
 
-  <div class="container-fluid" style="background-color: #dddddd" id="contact">
-    <h3 class="text-center">Contact Me</h3>
-    <div class="row">
-      <div class="col-sm-5">
-        <p>Contact ume and I'll get back to you within 24 hours.</p>
-        <p><span class="glyphicon glyphicon-map-marker"></span> UKM Bangi, Selangor</p>
-        <p><span class="glyphicon glyphicon-phone"></span> +6012 3456789</p>
-        <p><span class="glyphicon glyphicon-envelope"></span> a174652@siswa.ukm.edu.my</p>
-      </div>
-      <div class="col-sm-7">
-        <div class="row">
-          <div class="col-sm-6 form-group">
-            <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
-          </div>
-          <div class="col-sm-6 form-group">
-            <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
-          </div>
+  <div class="container-fluid" style="background: rgb(206,17,38);
+  background: radial-gradient(circle, rgba(206,17,38,1) 25%, rgba(147,25,39,1) 100%);color: #ffffff;" id="contact">
+  <h3 class="text-center">Contact Me</h3>
+  <div class="row">
+    <div class="col-sm-5">
+      <p>Contact me and I'll get back to you within 24 hours.</p>
+      <p><span class="glyphicon glyphicon-map-marker"></span> UKM Bangi, Selangor</p>
+      <p><span class="glyphicon glyphicon-phone"></span> +6012 3456789</p>
+      <p><span class="glyphicon glyphicon-envelope"></span> a174652@siswa.ukm.edu.my</p>
+    </div>
+    <div class="col-sm-7">
+      <div class="row">
+        <div class="col-sm-6 form-group">
+          <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
         </div>
-        <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
-        <div class="row">
-          <div class="col-sm-12 form-group">
-            <button class="btn btn-default pull-right" type="submit">Send</button>
-          </div>
+        <div class="col-sm-6 form-group">
+          <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+        </div>
+      </div>
+      <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+      <div class="row">
+        <div class="col-sm-12 form-group">
+          <button class="btn btn-default pull-right" type="submit">Send</button>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <footer class="container-fluid bg4 text-center">
-    <a href="#myPage" title="To Top">
-      <span class="glyphicon glyphicon-chevron-up"></span>
-    </a>
-    <p>Copyright © Arfan 2021</p>
-  </footer>
+<footer class="container-fluid bg4 text-center">
+  <a href="#myPage" title="To Top">
+    <span class="glyphicon glyphicon-chevron-up"></span>
+  </a>
+  <p>Copyright © Arfan 2021</p>
+</footer>
 
 </body>
 </html>
