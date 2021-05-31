@@ -28,9 +28,10 @@ include_once 'database.php';
   try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $stmt = $conn->prepare("SELECT * FROM tbl_products_a174652 WHERE fld_product_num = :pid");
+    $stmt = $conn->prepare("SELECT * FROM tbl_products_a174652_pt2 WHERE FLD_PRODUCT_ID = :pid");
     $stmt->bindParam(':pid', $pid, PDO::PARAM_STR);
     $pid = $_GET['pid'];
+    $fid = sprintf("MB%03d", $_GET['pid']);
     $stmt->execute();
     $readrow = $stmt->fetch(PDO::FETCH_ASSOC);
   }
@@ -43,11 +44,11 @@ include_once 'database.php';
   <div class="container-fluid">
     <div class="row">
       <div class="col-xs-12 col-sm-5 col-sm-offset-1 col-md-4 col-md-offset-2 well well-sm text-center">
-        <?php if ($readrow['fld_product_image'] == "" ) {
+        <?php if (!file_exists("products/{$pid}.png")) {
           echo "No image";
         }
         else { ?>
-          <img src="products/<?php echo $readrow['fld_product_image']; ?>" class="img-responsive">
+          <img src="products/<?php echo $readrow['FLD_PRODUCT_ID']; ?>.png" class="img-responsive">
         <?php } ?>
       </div>
       <div class="col-xs-12 col-sm-5 col-md-4">
@@ -59,31 +60,31 @@ include_once 'database.php';
           <table class="table">
             <tr>
               <td class="col-xs-4 col-sm-4 col-md-4"><strong>Product ID</strong></td>
-              <td><?php echo $readrow['fld_product_num'] ?></td>
+              <td><?php echo $fid; ?></td>
             </tr>
             <tr>
               <td><strong>Name</strong></td>
-              <td><?php echo $readrow['fld_product_name'] ?></td>
+              <td><?php echo $readrow['FLD_PRODUCT_NAME'] ?></td>
             </tr>
             <tr>
               <td><strong>Price</strong></td>
-              <td>RM <?php echo $readrow['fld_product_price'] ?></td>
+              <td>RM <?php echo $readrow['FLD_PRICE'] ?></td>
             </tr>
             <tr>
               <td><strong>Brand</strong></td>
-              <td><?php echo $readrow['fld_product_brand'] ?></td>
+              <td><?php echo $readrow['FLD_BRAND'] ?></td>
             </tr>
             <tr>
-              <td><strong>Condition</strong></td>
-              <td><?php echo $readrow['fld_product_condition'] ?></td>
+              <td><strong>Socket</strong></td>
+              <td><?php echo $readrow['FLD_SOCKET'] ?></td>
             </tr>
             <tr>
               <td><strong>Manufacturing Year</strong></td>
-              <td><?php echo $readrow['fld_product_year'] ?></td>
+              <td><?php echo $readrow['FLD_MANUFACTURED_YEAR'] ?></td>
             </tr>
             <tr>
-              <td><strong>Quantity</strong></td>
-              <td><?php echo $readrow['fld_product_quantity'] ?></td>
+              <td><strong>Stock</strong></td>
+              <td><?php echo $readrow['FLD_STOCK'] ?></td>
             </tr>
           </table>
         </div>

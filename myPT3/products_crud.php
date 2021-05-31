@@ -46,26 +46,26 @@ if (isset($_POST['update'])) {
   try {
 
     $stmt = $conn->prepare("UPDATE tbl_products_a174652_pt2 SET
-      fld_product_name = :name, fld_product_price = :price, fld_product_brand = :brand,
-      fld_product_condition = :cond, fld_product_year = :year, fld_product_quantity = :quantity
+      FLD_PRODUCT_NAME = :name, FLD_PRICE = :price, FLD_BRAND = :brand,
+      FLD_SOCKET = :socket, FLD_MANUFACTURED_YEAR = :year, FLD_STOCK = :stock
       WHERE FLD_PRODUCT_ID = :oldpid");
 
     //$stmt->bindParam(':pid', $pid, PDO::PARAM_STR);
     $stmt->bindParam(':name', $name, PDO::PARAM_STR);
     $stmt->bindParam(':price', $price, PDO::PARAM_STR);
     $stmt->bindParam(':brand', $brand, PDO::PARAM_STR);
-    $stmt->bindParam(':cond', $cond, PDO::PARAM_STR);
+    $stmt->bindParam(':socket', $socket, PDO::PARAM_STR);
     $stmt->bindParam(':year', $year, PDO::PARAM_INT);
-    $stmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
+    $stmt->bindParam(':stock', $stock, PDO::PARAM_INT);
     $stmt->bindParam(':oldpid', $oldpid, PDO::PARAM_STR);
 
     //$pid = $_POST['pid'];
     $name = $_POST['name'];
     $price = $_POST['price'];
     $brand =  $_POST['brand'];
-    $cond = $_POST['cond'];
+    $socket = $_POST['socket'];
     $year = $_POST['year'];
-    $quantity = $_POST['quantity'];
+    $stock = $_POST['stock'];
     $oldpid = $_POST['oldpid'];
 
     $stmt->execute();

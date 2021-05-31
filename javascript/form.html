@@ -85,6 +85,9 @@
   <script type="text/javascript">
     function check_mycard() {
       var mycard = document.getElementById('id_mycard');
+      var stateObj = document.getElementById('id_state');
+      var genderObj = document.getElementById('id_sex');
+
       if (mycard.value == "") {
         // show a pop up box says "Please insert your MyCard number"
         // put cursor inside the MyCard textbox
@@ -97,16 +100,31 @@
       isValid = patt.test(mycard.value);
       if(isValid) {
         //000913-08-1221
+        var dob = [];
         var ic = mycard.value;
-        var dob = ic.slice(0, 2);
+        dob[0] = parseInt(ic.slice(0, 2)); // year
+        dob[1] = parseInt(ic.slice(2, 4)); // moth
+        dob[2] = parseInt(ic.slice(4, 6)); // day
         var state = ic.slice(7,9);
-        var gender = ic.charAt(13);
+        var gender = isEven(ic.charAt(13)) === true ? 'f' : 'm';
 
-        console.log(dob);
+        document.getElementById('id_dob').value = formatDOB(dob);
+        setSelectedValue(stateObj, state);
+        setSelectedValue(genderObj, gender);
       } else {
         alert("Please insert a correct MyCard number");
         mycard.focus();
       }
+    }
+
+    function formatDOB(dob) {
+      if (dob[0] >= 50) {
+        dob[0] += 1900;
+      } else {
+        dob[0] += 2000;
+      }
+
+      return `${dob[2]}/${dob[1]}/${dob[0]}`;
     }
 
     function setSelectedValue(selectObj, valueToSet) {

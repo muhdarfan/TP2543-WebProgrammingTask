@@ -156,7 +156,7 @@ include_once 'products_crud.php';
             <tr>
               <td><?php echo $readrow['FLD_PRODUCT_ID']; ?></td>
               <td><?php echo $readrow['FLD_PRODUCT_NAME']; ?></td>
-              <td><?php echo $readrow['FLD_PRICE']; ?></td>
+              <td>RM <?php echo $readrow['FLD_PRICE']; ?></td>
               <td><?php echo $readrow['FLD_BRAND']; ?></td>
               <td>
                 <a href="products_details.php?pid=<?php echo $readrow['FLD_PRODUCT_ID']; ?>" class="btn btn-warning btn-xs" role="button">Details</a>

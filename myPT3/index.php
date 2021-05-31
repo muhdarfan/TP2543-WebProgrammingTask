@@ -12,7 +12,8 @@
 		html {
 			width:100%;
 			height:100%;
-			background:url(logo.png) center center no-repeat;
+			background: url(logo.png) center center no-repeat;
+			background-size: 30% 50%;
 			min-height:100%;
 		}
 	</style>
