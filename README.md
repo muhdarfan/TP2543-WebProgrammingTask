@@ -16,7 +16,7 @@
 | Week 8 | Unavailable |
 | [Week 9](week8lab/) | ✔️ |
 | [Week 10](week10lab/) | ✔️ |
-| [Week 11](javascript/) | 🚧 |
+| [Week 11](javascript/) | ✔️ |
 | [Week 12](week12lab/) | ✔️ |
 | [Week 13](week13lab/) | 🚧 |
 
