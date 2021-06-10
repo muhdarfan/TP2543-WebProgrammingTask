@@ -3,27 +3,31 @@
 <head>
   <title>My Bike Ordering System : Products</title>
   <style type="text/css">
-    #logo {
-      width:80px;
-      height:80px;
-      position:absolute;
-      right:10px;
-      bottom:10px;
-      background-color:red;
-      text-align:center;
-      vertical-align:middle;
-      line-height: 80px;
-    }
-    .formlabel {
-      font-weight: bold;
-    }
-  </style>
-  <script src="jquery-3.6.0.min.js"></script>
-  <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
-  <script type="text/javascript">
-    $(document).ready(function() {
-      $("#logo").click(function(event) {
+  #logo {
+    width:80px;
+    height:80px;
+    position:absolute;
+    right:10px;
+    bottom:10px;
+    background-color:red;
+    text-align:center;
+    vertical-align:middle;
+    line-height: 80px;
+  }
+  .formlabel {
+    font-weight: bold;
+  }
+</style>
+<script src="jquery-3.6.0.min.js"></script>
+<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
+<script type="text/javascript">
+  $(document).ready(function() {
+    let clicked = false;
+    $("#logo").click(function(event) {
+      if (!clicked) {
         /* Act on the event */
+        clicked = true;
+
         $(this).animate({
           height: "+=200px",
           width: "+=200px",
@@ -34,9 +38,10 @@
         }, "slow", "linear").animate({
           opacity: "20%"
         }, 1000);
-      });
+      }
     });
-  </script>
+  });
+</script>
 
 </head>
 <body>

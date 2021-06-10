@@ -11,7 +11,7 @@
     <div class="pb-2 mt-4 mb-2 border-bottom">
         <h2>Manage MyGuestBook</h2>
     </div>
-    <div class="card text-white bg-dark">
+    <div class="card bg-dark text-white">
         <div class="card-body">
             <form id="theform">
                 <div class="form-group">
@@ -144,7 +144,7 @@
                 success: function (result) {
                     let textToInsert = '';
                     let id = '';
-                    const header = '<thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Date</th><th>Time</th><th>Comment</th><th>Action</th></tr></thead>';
+                    const header = '<thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Comment</th><th>Date</th><th>Time</th><th>Action</th></tr></thead>';
 
                     $.each(result, function (row, rowdata) {
                         textToInsert += '<tr>';
@@ -158,7 +158,7 @@
                         textToInsert += '</tr>';
                     });
 
-                    $("#listing").html('<table class="table table-bordered" border=1>' + header + '<tbody>' + textToInsert + '</tbody></table>');
+                    $("#listing").html('<table class="table table-bordered text-white" border=1>' + header + '<tbody>' + textToInsert + '</tbody></table>');
                 },
                 error: function (xhr, status) {
                     $("#listing").html(xhr.responseText);
