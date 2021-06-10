@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript">
+		function percntg(a,b,c) {
+			var marksper = (a+b+c) / 300*100;
+			status(marksper);
+		}
+		function status(percnt) {
+			if(percnt >= 40) {
+				document.write("Student passed with " + percnt + "% marks");
+			} else {
+				document.write("Student failed");
+			}
+		}
+	</script>
+</head>
+<body>
+	<input type="button" value="click me to check answer" onclick="return percntg(70,20,30);">
+</body>
+</html>

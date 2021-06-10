@@ -1,178 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-  <style>
-    body {
-      font: 14px "Montserrat", sans-serif;
-      line-height: 1.8;
-    }
-    .bg-1 {
-      background: linear-gradient(90deg, rgba(0, 79, 70, 1) 0%, rgba(0, 122, 61, 1) 0%, rgba(0, 77, 20, 1) 100%);
-      /*background-color: rgba(0,122,61,255); /* Orange */
-      color: #ffffff;
-    }
-    .bg-2 {
-      background: linear-gradient(175deg, rgba(44, 44, 44, 1) 0%, rgba(69, 72, 76, 1) 0%, rgba(92, 103, 110, 1) 100%);
-      /*background-color: #2c2c2c; Dark Blue */
-      color: #ffffff;
-    }
-    .bg-3 {
-      background-color: #ffffff;
-      background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%);
-      /* background-color: #ffffff; White */
-      color: #555555;
-    }
-    .container-fluid {
-      padding-top: 70px;
-      padding-bottom: 70px;
-      padding-left: 50px;
-      padding-right: 50px;
-    }
-    .navbar {
-      padding-top: 15px;
-      padding-bottom: 15px;
-      border: 0;
-      border-radius: 0;
-      margin-bottom: 0;
-      font-size: 14px;
-      letter-spacing: 3px;
-    }
-    .bg-4 {
-      background-color: #2f2f2f;
-      color: #ffffff;
-    }
-    footer .glyphicon {
-      font-size: 20px;
-      margin-bottom: 20px;
-      color: #f4511e;
-    }
-    .arrow-down {
-      width: 0; 
-      height: 0; 
-      border-left: 200px solid transparent;
-      border-right: 200px solid transparent;
-      z-index: 1;
+    <style>
+        body {
+            font: 14px "Montserrat", sans-serif;
+            line-height: 1.8;
+        }
 
-      margin-top: -70px;
-      border-top: 200px solid #f00;
-      position: absolute;
-      left: 39.5%;
-      width: 100px;
-      height: 100px;
-    }
-  </style>
+        .bg-1 {
+            background: linear-gradient(90deg, rgba(0, 79, 70, 1) 0%, rgba(0, 122, 61, 1) 0%, rgba(0, 77, 20, 1) 100%);
+            /*background-color: rgba(0,122,61,255); /* Orange */
+            color: #ffffff;
+        }
+
+        .bg-2 {
+            background: linear-gradient(175deg, rgba(44, 44, 44, 1) 0%, rgba(69, 72, 76, 1) 0%, rgba(92, 103, 110, 1) 100%);
+            /*background-color: #2c2c2c; Dark Blue */
+            color: #ffffff;
+        }
+
+        .bg-3 {
+            background-color: #ffffff;
+            background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%);
+            /* background-color: #ffffff; White */
+            color: #555555;
+        }
+
+        .container-fluid {
+            padding-top: 70px;
+            padding-bottom: 70px;
+            padding-left: 50px;
+            padding-right: 50px;
+        }
+
+        .navbar {
+            padding-top: 15px;
+            padding-bottom: 15px;
+            border: 0;
+            border-radius: 0;
+            margin-bottom: 0;
+            font-size: 14px;
+            letter-spacing: 3px;
+        }
+
+        .bg-4 {
+            background-color: #2f2f2f;
+            color: #ffffff;
+        }
+
+        footer .glyphicon {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #f4511e;
+        }
+    </style>
 </head>
 <body id="myPage">
 
-  <nav class="navbar navbar-default">
+<nav class="navbar navbar-default">
     <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">Me</a>
-      </div>
-      <div class="collapse navbar-collapse" id="myNavbar">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#hello">Hello</a></li>
-          <li><a href="#who">Who</a></li>
-          <li><a href="#where">Where</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Me</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#hello">Hello</a></li>
+                <li><a href="#who">Who</a></li>
+                <li><a href="#where">Where</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
     </div>
-  </nav>
+</nav>
 
-  <div class="container-fluid bg-1 text-center" id="hello">
-    <div class="arrow-down"></div>
-    <div style="z-index: 9999;">
-      <h3>&#65021</h3>
-      <img src="https://gambarpel.ukm.my/images/A174652.jpg" class="img-circle" alt="Myself">
-      <h3>Saya Arfan</h3>
-    </div>
-  </div>
+<div class="container-fluid bg-1 text-center" id="hello">
+    <h3>&#65021</h3>
+    <img src="https://gambarpel.ukm.my/images/A174652.jpg" class="img-circle" alt="Myself">
+    <h3>Saya Arfan</h3>
+</div>
 
-  <div class="container-fluid bg-2 text-center" id="who">
+<div class="container-fluid bg-2 text-center" id="who">
     <h3>Siapakah Saya?</h3>
     <div class="row">
-      <div class="col-sm-4">
-        <p>.</p>
-        <img src="i.jpg" class="img-responsive img-rounded" alt="Image" style="display:inline;height: 300px;width: 480px;box-shadow: 0px 0px 20px #888888;">
-      </div>
-      <div class="col-sm-4">
-        <p>Penggemar makanan.</p>
-        <img src="food.jpg" class="img-responsive img-rounded" alt="Image" style="display:inline;height: 300px;width: 480px;box-shadow: 0px 0px 20px #888888;">
-      </div>
-      <div class="col-sm-4">
-        <p>Seorang yang tegar dalam mengembara serta memanjat bukit bersama rakan-rakan. Sukan ini sering dilakukan 2-3 kali seminggu untuk menenangkan fikiran dan mendapatkan kedamaian alam kehijauan.</p>
-        <img src="hiker.jpg" class="img-responsive img-rounded" alt="Image" style="display:inline;height: 300px;width: 480px;box-shadow: 0px 0px 20px #888888;">
-      </div>
+        <div class="col-sm-4">
+            <p class="text-justify">
+                Minat dalam menceburi bidang teknologi dan giat dalam mencari peluang untuk belajar tentang teknologi
+                semasa.
+            </p>
+            <img src="i.jpg" class="img-responsive img-rounded" alt="Image"
+                 style="display:inline;height: 300px;width: 480px;box-shadow: 0px 0px 20px #888888;">
+        </div>
+        <div class="col-sm-4">
+            <p class="text-justify">
+                Bercita-cita untuk melancong ke pelbagai tempat di dalam dan luar negara untuk menikmati
+                adat dan tradisi di pelbagai tempat. Selain itu, gemar untuk mencuba makanan baharu.
+            </p>
+            <img src="food.jpg" class="img-responsive img-rounded" alt="Image"
+                 style="display:inline;height: 300px;width: 480px;box-shadow: 0px 0px 20px #888888;">
+        </div>
+        <div class="col-sm-4">
+            <p class="text-justify">
+                Seorang yang tegar dalam mengembara serta memanjat bukit bersama rakan-rakan. Sukan ini sering dilakukan
+                2-3 kali seminggu untuk menenangkan fikiran dan mendapatkan kedamaian alam kehijauan.
+            </p>
+            <img src="hiker.jpg" class="img-responsive img-rounded" alt="Image"
+                 style="display:inline;height: 300px;width: 480px;box-shadow: 0px 0px 20px #888888;">
+        </div>
     </div>
-  </div>
+</div>
 
-  <div class="container-fluid bg-3 text-center" id="where">
+<div class="container-fluid bg-3 text-center" id="where">
     <h3>Where To Find Me?</h3>
     <p>Di mana kan ku cari ganti,
-      Serupa dengan mu,
-      Tak sanggup ku berpisah,
-      Dan berhati patah, hidup gelisah,
-      Alangkah pedih rasa hati,
-      Selama kau pergi,
-      Tinggalku sendirian,
-      Tiada berteman dalam kesepian
+        Serupa dengan mu,
+        Tak sanggup ku berpisah,
+        Dan berhati patah, hidup gelisah,
+        Alangkah pedih rasa hati,
+        Selama kau pergi,
+        Tinggalku sendirian,
+        Tiada berteman dalam kesepian
     </p>
     <a href="https://instagram.com/mh.darfan" target="_blank" class="btn btn-default btn-lg">
-      <span class="glyphicon glyphicon-search"></span> Search
+        <span class="glyphicon glyphicon-search"></span> Search
     </a>
-  </div>
+</div>
 
-  <div class="container-fluid" style="background: rgb(206,17,38);
+<div class="container-fluid" style="background: rgb(206,17,38);
   background: radial-gradient(circle, rgba(206,17,38,1) 25%, rgba(147,25,39,1) 100%);color: #ffffff;" id="contact">
-  <h3 class="text-center">Contact Me</h3>
-  <div class="row">
-    <div class="col-sm-5">
-      <p>Contact me and I'll get back to you within 24 hours.</p>
-      <p><span class="glyphicon glyphicon-map-marker"></span> UKM Bangi, Selangor</p>
-      <p><span class="glyphicon glyphicon-phone"></span> +6012 3456789</p>
-      <p><span class="glyphicon glyphicon-envelope"></span> a174652@siswa.ukm.edu.my</p>
+    <h3 class="text-center">Contact Me</h3>
+    <div class="row">
+        <div class="col-sm-5">
+            <p>Contact me and I'll get back to you within 24 hours.</p>
+            <p><span class="glyphicon glyphicon-map-marker"></span> UKM Bangi, Selangor</p>
+            <p><span class="glyphicon glyphicon-phone"></span> +6012 3456789</p>
+            <p><span class="glyphicon glyphicon-envelope"></span> a174652@siswa.ukm.edu.my</p>
+        </div>
+        <div class="col-sm-7">
+            <div class="row">
+                <div class="col-sm-6 form-group">
+                    <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+                </div>
+                <div class="col-sm-6 form-group">
+                    <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+                </div>
+            </div>
+            <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+            <div class="row">
+                <div class="col-sm-12 form-group">
+                    <button class="btn btn-default pull-right" type="submit">Send</button>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-sm-7">
-      <div class="row">
-        <div class="col-sm-6 form-group">
-          <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
-        </div>
-        <div class="col-sm-6 form-group">
-          <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
-        </div>
-      </div>
-      <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
-      <div class="row">
-        <div class="col-sm-12 form-group">
-          <button class="btn btn-default pull-right" type="submit">Send</button>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
 <footer class="container-fluid bg4 text-center">
-  <a href="#myPage" title="To Top">
-    <span class="glyphicon glyphicon-chevron-up"></span>
-  </a>
-  <p>Copyright © Arfan 2021</p>
+    <a href="#myPage" title="To Top">
+        <span class="glyphicon glyphicon-chevron-up"></span>
+    </a>
+    <p>Copyright © Arfan 2021</p>
 </footer>
 
 </body>
