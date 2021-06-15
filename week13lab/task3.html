@@ -3,42 +3,37 @@
 <head>
   <title>My Bike Ordering System : Products</title>
   <style type="text/css">
-    #logo {
-      width:80px;
-      height:80px;
-      position:absolute;
-      right:10px;
-      bottom:10px;
-      background-color:red;
-      text-align:center;
-      vertical-align:middle;
-      line-height: 80px;
-    }
-    .formlabel {
-      font-weight: bold;
-    }
-  </style>
-  <script src="jquery-3.6.0.min.js"></script>
-  <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
-  <script type="text/javascript">
-    $(document).ready(function() {
-      $("input").focus(function(event) {
-        $(this).css({
-          "background-color": "blue"
-        });
-      });
-
+  #logo {
+    width:80px;
+    height:80px;
+    position:absolute;
+    right:10px;
+    bottom:10px;
+    background-color:red;
+    text-align:center;
+    vertical-align:middle;
+    line-height: 80px;
+  }
+  .formlabel {
+    font-weight: bold;
+  }
+</style>
+<script src="jquery-3.6.0.min.js"></script>
+<link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("input").focus(function(event) {
+      $(this).css({"background-color": "blue"});
+    });
+    /*
       $("input").mouseleave(function(event) {
-        /* Act on the event */
         $(this).css({
           'background-color': 'white'
         });
       });
-
-      $("input").keydown(function(event) {
-        $(this).css({
-          "background-color": 'white'
-        });
+      */
+      $("input").blur(function(event) {
+        $(this).css({"background-color": 'white'});
       });
     });
   </script>
