@@ -10,10 +10,8 @@ if (isset($_POST['create'])) {
 
   try {
 
-    $stmt = $conn->prepare("INSERT INTO tbl_products_a174652_pt2(
-      fld_product_name, fld_product_price, fld_product_brand, fld_product_condition,
-      fld_product_year, fld_product_quantity) VALUES(:name, :price, :brand,
-      :cond, :year, :quantity)");
+    $stmt = $conn->prepare("INSERT INTO tbl_products_a174652_pt2(FLD_PRODUCT_NAME, FLD_PRICE, FLD_BRAND, FLD_SOCKET, FLD_MANUFACTURED_YEAR, FLD_STOCK, FLD_PRODUCT_IMAGE)
+     VALUES (:name, :price, :brand, :socket, :year, :stock, :image)");
 
     //$stmt->bindParam(':pid', $pid, PDO::PARAM_STR);
     $stmt->bindParam(':name', $name, PDO::PARAM_STR);

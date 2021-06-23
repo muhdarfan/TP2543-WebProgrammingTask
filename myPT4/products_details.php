@@ -15,6 +15,7 @@ if (!isset($_SESSION['loggedin']))
     <title>My Bike Ordering System : Products Details</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -25,7 +26,7 @@ if (!isset($_SESSION['loggedin']))
 </head>
 <body>
 
-<?php include_once 'nav_bar.php'; ?>
+<?php include_once 'nav_bar.inc'; ?>
 
 <?php
 try {
@@ -33,27 +34,31 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $stmt = $conn->prepare("SELECT * FROM tbl_products_a174652_pt2 WHERE FLD_PRODUCT_ID = :pid");
     $stmt->bindParam(':pid', $pid, PDO::PARAM_STR);
-    $pid = $_GET['pid'];
+    $pid = intval($_GET['pid']);
     $fid = sprintf("MB%03d", $_GET['pid']);
+
     $stmt->execute();
     $readrow = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (empty($readrow['FLD_PRODUCT_IMAGE']))
+        $readrow['FLD_PRODUCT_IMAGE'] = "{$readrow['FLD_PRODUCT_ID']}.png";
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
 $conn = null;
 ?>
 
-<div class="container-fluid">
+<div class="container-fluid" style="padding: 3rem;">
     <div class="row">
-        <div class="col-xs-12 col-sm-5 col-sm-offset-1 col-md-4 col-md-offset-2 well well-sm text-center">
-            <?php if (!file_exists("products/{$pid}.png")) {
+        <div class="col-xs-12 col-sm-5 col-sm-offset-1 col-md-4 col-md-offset-2 well well-sm text-center dark-1">
+            <?php if (!file_exists("products/{$readrow['FLD_PRODUCT_IMAGE']}")) {
                 echo "No image";
             } else { ?>
-                <img src="products/<?php echo $readrow['FLD_PRODUCT_ID']; ?>.png" class="img-responsive">
+                <img src="products/<?php echo $readrow['FLD_PRODUCT_IMAGE']; ?>" class="img-responsive">
             <?php } ?>
         </div>
         <div class="col-xs-12 col-sm-5 col-md-4">
-            <div class="panel panel-default">
+            <div class="panel panel-dark">
                 <div class="panel-heading"><strong>Product Details</strong></div>
                 <div class="panel-body">
                     Below are specifications of the product.

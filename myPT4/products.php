@@ -28,7 +28,7 @@ include_once 'products_crud.php';
     </style>
 </head>
 <body>
-<?php include_once 'nav_bar.php'; ?>
+<?php include_once 'nav_bar.inc'; ?>
 <?php
 if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') {
     ?>
@@ -45,9 +45,16 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                         }
                         ?>
                     </div>
+
+                    <?php
+                    if (isset($_SESSION['error'])) {
+                        echo "<p class='text-danger text-center'>{$_SESSION['error']}</p>";
+                        unset($_SESSION['error']);
+                    }
+                    ?>
                 </div>
 
-                <form action="products.php" method="post" class="form-horizontal" enctype="multipart/form-data">
+                <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" class="form-horizontal" enctype="multipart/form-data">
                     <div class="col-md-8">
                         <?php
                         if (isset($_GET['edit']))
@@ -137,7 +144,7 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                             <label for="productstock" class="col-sm-3 control-label">Stock</label>
                             <div class="col-sm-9">
                                 <input name="stock" type="number" class="form-control" id="productstock"
-                                       placeholder="Product Socket"
+                                       placeholder="Product Stock"
                                        value="<?php if (isset($_GET['edit'])) echo $editrow['FLD_STOCK']; ?>" min="0"
                                        required>
                             </div>
@@ -166,7 +173,7 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
 
                     <div class="col-md-4" style="height: 100%">
                         <div class="thumbnail dark-1">
-                            <img src="products/no-photo.png" id="productPhoto" alt="Product Image" style="width: 100%;height: 225px;">
+                            <img src="products/<?php echo (isset($_GET['edit']) ? $editrow['FLD_PRODUCT_IMAGE'] : '') ?>" onerror="this.onerror=null;this.src='products/no-photo.png';" id="productPhoto" alt="Product Image" style="width: 100%;height: 225px;">
                             <div class="caption text-center">
                                 <h3 id="productImageTitle" style="word-break: break-all;">Product Image</h3>
                                 <p>
@@ -197,8 +204,8 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
             <div class="page-header">
                 <h2>Products List</h2>
             </div>
-            <table class="table table-striped table-bordered">
-                <tr>
+            <table class="table table-bordered">
+                <tr style="background: #1E2C4E;color: #fff;">
                     <th>Product ID</th>
                     <th>Name</th>
                     <th>Price</th>
@@ -224,7 +231,7 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                 }
                 foreach ($result as $readrow) {
                     ?>
-                    <tr>
+                    <tr style="color: #AAA;">
                         <td><?php echo $readrow['FLD_PRODUCT_ID']; ?></td>
                         <td><?php echo $readrow['FLD_PRODUCT_NAME']; ?></td>
                         <td>RM <?php echo $readrow['FLD_PRICE']; ?></td>
@@ -235,7 +242,7 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                             <?php
                             if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') {
                                 ?>
-                                <a href="products.php?edit=<?php echo $readrow['FLD_PRODUCT_ID']; ?>"
+                                <a href="products.php?edit=<?php echo $readrow['FLD_PRODUCT_ID']; echo (isset($_GET['page']) ? '&page='.$_GET['page'] : ''); ?>"
                                    class="btn btn-success btn-xs" role="button"> Edit </a>
                                 <a href="products.php?delete=<?php echo $readrow['FLD_PRODUCT_ID']; ?>"
                                    onclick="return confirm('Are you sure to delete?');" class="btn btn-danger btn-xs"
@@ -269,10 +276,10 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                     $total_pages = ceil($total_records / $per_page);
                     ?>
                     <?php if ($page == 1) { ?>
-                        <li class="disabled"><span aria-hidden="true">«</span></li>
+                        <li class="disabled"><span aria-hidden="true">&laquo;</span></li>
                     <?php } else { ?>
                         <li><a href="products.php?page=<?php echo $page - 1 ?>" aria-label="Previous"><span
-                                        aria-hidden="true">«</span></a></li>
+                                        aria-hidden="true">&laquo;</span></a></li>
                         <?php
                     }
                     for ($i = 1;
@@ -284,10 +291,10 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                             echo "<li><a href=\"products.php?page=$i\">$i</a></li>";
                     ?>
                     <?php if ($page == $total_pages) { ?>
-                        <li class="disabled"><span aria-hidden="true">»</span></li>
+                        <li class="disabled"><span aria-hidden="true">&raquo;</span></li>
                     <?php } else { ?>
                         <li><a href="products.php?page=<?php echo $page + 1 ?>" aria-label="Previous"><span
-                                        aria-hidden="true">»</span></a></li>
+                                        aria-hidden="true">&raquo;</span></a></li>
                     <?php } ?>
                 </ul>
             </nav>

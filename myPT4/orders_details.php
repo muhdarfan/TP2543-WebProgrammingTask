@@ -23,7 +23,7 @@ include_once 'orders_details_crud.php';
 </head>
 <body>
 
-<?php include_once 'nav_bar.php'; ?>
+<?php include_once 'nav_bar.inc'; ?>
 
 <?php
 try {
@@ -134,8 +134,8 @@ $conn = null;
             <div class="page-header">
                 <h2>Products in This Order</h2>
             </div>
-            <table class="table table-striped table-bordered">
-                <tr>
+            <table class="table table-bordered">
+                <tr style="background: #1E2C4E;color: #fff;">
                     <th>Order Detail ID</th>
                     <th>Product</th>
                     <th>Quantity</th>
@@ -158,7 +158,7 @@ $conn = null;
                 }
                 foreach ($result as $detailrow) {
                     ?>
-                    <tr>
+                    <tr style="color: #AAA;">
                         <td><?php echo $detailrow['fld_order_detail_num']; ?></td>
                         <td><?php echo $detailrow['FLD_PRODUCT_NAME']; ?></td>
                         <td><?php echo $detailrow['fld_order_detail_quantity']; ?></td>

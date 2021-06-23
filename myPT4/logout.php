@@ -21,7 +21,7 @@ require 'database.php';
     <![endif]-->
 </head>
 <body>
-<?php include_once 'nav_bar.php'; ?>
+<?php include_once 'nav_bar.inc'; ?>
 
 <div class="container center-wrapper text-center">
     <?php

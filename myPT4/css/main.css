@@ -6,7 +6,7 @@ body {
     padding: 0;
     height: 100%;
     width: 100%;
-    background: #181818 !important;
+    background: #223157 !important;
     color: #fff;
     font-family: 'Roboto', sans-serif;
 }
@@ -22,16 +22,16 @@ body {
 
 /* navigation  */
 .navbar-dark {
-    background: #131313;
+    background: #1E2C4E;
     margin-bottom: 0;
 }
 
 .dark {
-    background: #131313;
+    background: #1E2C4E;
 }
 
 .dark-1 {
-    background: #212121 !important;
+    background: #223157 !important;
     border-color: #000;
 }
 
@@ -63,4 +63,15 @@ hr {
 
 .order-detail tr {
     border-color: #000 !important;
+}
+
+.panel-dark {
+    background: #223157 !important;
+    border-color: #000;
+}
+
+.panel-dark > .panel-heading {
+    color: #AAA;
+    background: #1E2C4E;
+    border-color: #223157;
 }

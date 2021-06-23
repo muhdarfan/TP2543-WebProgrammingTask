@@ -22,7 +22,7 @@ include_once 'staffs_crud.php';
     <![endif]-->
 </head>
 <body>
-<?php include_once 'nav_bar.php'; ?>
+<?php include_once 'nav_bar.inc'; ?>
 <?php
 if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') {
     ?>
@@ -62,6 +62,22 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                     </div>
 
                     <div class="form-group">
+                        <label for="inputEmail" class="col-sm-3 control-label">Email</label>
+                        <div class="col-sm-9">
+                            <input name="email" type="text" class="form-control" id="inputEmail" placeholder="Staff Email"
+                                   value="<?php if (isset($_GET['edit'])) echo $editrow['FLD_STAFF_EMAIL']; ?>" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputEmail" class="col-sm-3 control-label">Password</label>
+                        <div class="col-sm-9">
+                            <input name="password" type="text" class="form-control" id="inputEmail" placeholder="Staff Password"
+                                   value="<?php if (isset($_GET['edit'])) echo $editrow['FLD_STAFF_PASSWORD']; ?>" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label for="gender" class="col-sm-3 control-label">Gender</label>
                         <div class="col-sm-9">
                             <div class="radio">
@@ -78,6 +94,16 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                                            required> Female
                                 </label>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone" class="col-sm-3 control-label">Role</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="role">
+                                <option value="normal" <?php echo (isset($_GET['edit']) && $editrow['FLD_STAFF_ROLE'] == 'normal' ? 'selected' : ''); ?>>Normal Staff</option>
+                                <option value="admin" <?php echo (isset($_GET['edit']) && $editrow['FLD_STAFF_ROLE'] == 'admin' ? 'selected' : ''); ?>>Administrator</option>
+                            </select>
                         </div>
                     </div>
 
@@ -119,8 +145,8 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
             <div class="page-header">
                 <h2>Staff List</h2>
             </div>
-            <table class="table table-striped table-bordered">
-                <tr>
+            <table class="table table-bordered">
+                <tr style="background: #1E2C4E;color: #fff;">
                     <th>Staff ID</th>
                     <th>Full Name</th>
                     <th>Gender</th>
@@ -146,7 +172,7 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                 }
                 foreach ($result as $readrow) {
                     ?>
-                    <tr>
+                    <tr style="color: #AAA;">
                         <td><?php echo $readrow['FLD_STAFF_ID']; ?></td>
                         <td><?php echo $readrow['FLD_STAFF_NAME']; ?></td>
                         <td><?php echo ucfirst($readrow['FLD_STAFF_GENDER']); ?></td>
@@ -187,10 +213,10 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                     $total_pages = ceil($total_records / $per_page);
                     ?>
                     <?php if ($page == 1) { ?>
-                        <li class="disabled"><span aria-hidden="true">«</span></li>
+                        <li class="disabled"><span aria-hidden="true">&laquo;</span></li>
                     <?php } else { ?>
                         <li><a href="staffs.php?page=<?php echo $page - 1 ?>" aria-label="Previous"><span
-                                        aria-hidden="true">«</span></a></li>
+                                        aria-hidden="true">&laquo;</span></a></li>
                         <?php
                     }
                     for ($i = 1; $i <= $total_pages; $i++)
@@ -200,10 +226,10 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                             echo "<li><a href=\"staffs.php?page=$i\">$i</a></li>";
                     ?>
                     <?php if ($page == $total_pages) { ?>
-                        <li class="disabled"><span aria-hidden="true">»</span></li>
+                        <li class="disabled"><span aria-hidden="true">&raquo;</span></li>
                     <?php } else { ?>
                         <li><a href="staffs.php?page=<?php echo $page + 1 ?>" aria-label="Previous"><span
-                                        aria-hidden="true">»</span></a></li>
+                                        aria-hidden="true">&raquo;</span></a></li>
                     <?php } ?>
                 </ul>
             </nav>

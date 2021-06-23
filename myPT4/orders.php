@@ -21,7 +21,7 @@ include_once 'orders_crud.php';
     <![endif]-->
 </head>
 <body>
-<?php include_once 'nav_bar.php'; ?>
+<?php include_once 'nav_bar.inc'; ?>
 
 <div class="container-fluid dark" style="padding-bottom: 30px;">
     <div class="row">
@@ -139,8 +139,8 @@ include_once 'orders_crud.php';
             <div class="page-header">
                 <h2>Order List</h2>
             </div>
-            <table class="table table-striped table-bordered">
-                <tr>
+            <table class="table table-bordered">
+                <tr style="background: #1E2C4E;color: #fff;">
                     <th>Order ID</th>
                     <th>Order Date</th>
                     <th>Staff</th>
@@ -169,7 +169,7 @@ include_once 'orders_crud.php';
                 }
                 foreach ($result as $orderrow) {
                     ?>
-                    <tr>
+                    <tr style="color: #AAA;">
                         <td><?php echo $orderrow['fld_order_num']; ?></td>
                         <td><?php echo $orderrow['fld_order_date']; ?></td>
                         <td><?php echo $orderrow['FLD_STAFF_NAME']; ?></td>
@@ -215,10 +215,10 @@ include_once 'orders_crud.php';
                     $total_pages = ceil($total_records / $per_page);
                     ?>
                     <?php if ($page == 1) { ?>
-                        <li class="disabled"><span aria-hidden="true">«</span></li>
+                        <li class="disabled"><span aria-hidden="true">&laquo;</span></li>
                     <?php } else { ?>
                         <li><a href="orders.php?page=<?php echo $page - 1 ?>" aria-label="Previous"><span
-                                        aria-hidden="true">«</span></a></li>
+                                        aria-hidden="true">&laquo;</span></a></li>
                         <?php
                     }
                     for ($i = 1; $i <= $total_pages; $i++)
@@ -228,10 +228,10 @@ include_once 'orders_crud.php';
                             echo "<li><a href=\"orders.php?page=$i\">$i</a></li>";
                     ?>
                     <?php if ($page == $total_pages) { ?>
-                        <li class="disabled"><span aria-hidden="true">»</span></li>
+                        <li class="disabled"><span aria-hidden="true">&raquo;</span></li>
                     <?php } else { ?>
                         <li><a href="orders.php?page=<?php echo $page + 1 ?>" aria-label="Previous"><span
-                                        aria-hidden="true">»</span></a></li>
+                                        aria-hidden="true">&raquo;</span></a></li>
                     <?php } ?>
                 </ul>
             </nav>

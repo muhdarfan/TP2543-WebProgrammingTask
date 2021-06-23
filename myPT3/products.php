@@ -100,7 +100,7 @@ include_once 'products_crud.php';
           <div class="form-group">
             <label for="productstock" class="col-sm-3 control-label">Stock</label>
             <div class="col-sm-9">
-              <input name="stock" type="number" class="form-control" id="productstock" placeholder="Product Socket" value="<?php if(isset($_GET['edit'])) echo $editrow['FLD_STOCK']; ?>" min="0" required>
+              <input name="stock" type="number" class="form-control" id="productstock" placeholder="Product Stock" value="<?php if(isset($_GET['edit'])) echo $editrow['FLD_STOCK']; ?>" min="0" required>
             </div>
           </div>
 

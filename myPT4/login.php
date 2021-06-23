@@ -13,7 +13,6 @@ if (isset($_POST['userid'], $_POST['password'])) {
     } else {
         $stmt = $db->prepare("SELECT * FROM tbl_staffs_a174652_pt2 WHERE (FLD_STAFF_ID = :id OR FLD_STAFF_EMAIL = :id) LIMIT 1");
         $stmt->bindParam(':id', $UserID);
-        $stmt->bindParam(':pass', $Pass);
 
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
