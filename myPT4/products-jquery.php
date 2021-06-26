@@ -12,7 +12,6 @@ include_once 'products_crud.php';
     <title>My Motherboard Ordering System : Products</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/main.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -20,6 +19,9 @@ include_once 'products_crud.php';
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.css"/>
+
 
     <style>
         input[type="file"] {
@@ -45,16 +47,9 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                         }
                         ?>
                     </div>
-
-                    <?php
-                    if (isset($_SESSION['error'])) {
-                        echo "<p class='text-danger text-center'>{$_SESSION['error']}</p>";
-                        unset($_SESSION['error']);
-                    }
-                    ?>
                 </div>
 
-                <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" class="form-horizontal" enctype="multipart/form-data">
+                <form action="products.php" method="post" class="form-horizontal" enctype="multipart/form-data">
                     <div class="col-md-8">
                         <?php
                         if (isset($_GET['edit']))
@@ -144,7 +139,7 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                             <label for="productstock" class="col-sm-3 control-label">Stock</label>
                             <div class="col-sm-9">
                                 <input name="stock" type="number" class="form-control" id="productstock"
-                                       placeholder="Product Stock"
+                                       placeholder="Product Socket"
                                        value="<?php if (isset($_GET['edit'])) echo $editrow['FLD_STOCK']; ?>" min="0"
                                        required>
                             </div>
@@ -173,13 +168,15 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
 
                     <div class="col-md-4" style="height: 100%">
                         <div class="thumbnail dark-1">
-                            <img src="products/<?php echo (isset($_GET['edit']) ? $editrow['FLD_PRODUCT_IMAGE'] : '') ?>" onerror="this.onerror=null;this.src='products/no-photo.png';" id="productPhoto" alt="Product Image" style="width: 100%;height: 225px;">
+                            <img src="products/no-photo.png" id="productPhoto" alt="Product Image"
+                                 style="width: 100%;height: 225px;">
                             <div class="caption text-center">
                                 <h3 id="productImageTitle" style="word-break: break-all;">Product Image</h3>
                                 <p>
                                     <label class="btn btn-primary">
-                                        <input type="file" accept="image/*" name="fileToUpload" id="inputImage" onchange="loadFile(event);" />
-                                        <i class="fa fa-cloud-upload"></i> Browse
+                                        <input type="file" accept="image/*" name="fileToUpload" id="inputImage"
+                                               onchange="loadFile(event);"/>
+                                        <i class="fa fa-cloud-upload"></i> Upload
                                     </label>
                                     <?php
                                     if (isset($_GET['edit']) && $editrow['FLD_PRODUCT_IMAGE'] != '') {
@@ -204,26 +201,25 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
             <div class="page-header">
                 <h2>Products List</h2>
             </div>
-            <table class="table table-bordered">
-                <tr style="background: #1E2C4E;color: #fff;">
+
+            <table id="productList" class="table table-striped table-bordered">
+                <thead>
+                <tr>
                     <th>Product ID</th>
                     <th>Name</th>
                     <th>Price</th>
                     <th>Brand</th>
                     <th></th>
                 </tr>
+                </thead>
+                <tbody>
+
+
                 <?php
-                // Read
-                $per_page = 5;
-                if (isset($_GET["page"]))
-                    $page = $_GET["page"];
-                else
-                    $page = 1;
-                $start_from = ($page - 1) * $per_page;
                 try {
                     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
                     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                    $stmt = $conn->prepare("select * from tbl_products_a174652_pt2 LIMIT {$start_from}, {$per_page}");
+                    $stmt = $conn->prepare("select * from tbl_products_a174652_pt2");
                     $stmt->execute();
                     $result = $stmt->fetchAll();
                 } catch (PDOException $e) {
@@ -231,7 +227,7 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                 }
                 foreach ($result as $readrow) {
                     ?>
-                    <tr style="color: #AAA;">
+                    <tr>
                         <td><?php echo $readrow['FLD_PRODUCT_ID']; ?></td>
                         <td><?php echo $readrow['FLD_PRODUCT_NAME']; ?></td>
                         <td>RM <?php echo $readrow['FLD_PRICE']; ?></td>
@@ -242,7 +238,7 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                             <?php
                             if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') {
                                 ?>
-                                <a href="products.php?edit=<?php echo $readrow['FLD_PRODUCT_ID']; echo (isset($_GET['page']) ? '&page='.$_GET['page'] : ''); ?>"
+                                <a href="products.php?edit=<?php echo $readrow['FLD_PRODUCT_ID']; ?>"
                                    class="btn btn-success btn-xs" role="button"> Edit </a>
                                 <a href="products.php?delete=<?php echo $readrow['FLD_PRODUCT_ID']; ?>"
                                    onclick="return confirm('Are you sure to delete?');" class="btn btn-danger btn-xs"
@@ -253,69 +249,31 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                         </td>
                     </tr>
                 <?php } ?>
-
+                </tbody>
             </table>
         </div>
     </div>
+</div>
 
-    <div class="row">
-        <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
-            <nav>
-                <ul class="pagination">
-                    <?php
-                    try {
-                        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-                        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                        $stmt = $conn->prepare("SELECT * FROM tbl_products_a174652_pt2");
-                        $stmt->execute();
-                        $result = $stmt->fetchAll();
-                        $total_records = count($result);
-                    } catch (PDOException $e) {
-                        echo "Error: " . $e->getMessage();
-                    }
-                    $total_pages = ceil($total_records / $per_page);
-                    ?>
-                    <?php if ($page == 1) { ?>
-                        <li class="disabled"><span aria-hidden="true">&laquo;</span></li>
-                    <?php } else { ?>
-                        <li><a href="products.php?page=<?php echo $page - 1 ?>" aria-label="Previous"><span
-                                        aria-hidden="true">&laquo;</span></a></li>
-                        <?php
-                    }
-                    for ($i = 1;
-                         $i <= $total_pages;
-                         $i++)
-                        if ($i == $page)
-                            echo "<li class=\"active\"><a href=\"products.php?page=$i\">$i</a></li>";
-                        else
-                            echo "<li><a href=\"products.php?page=$i\">$i</a></li>";
-                    ?>
-                    <?php if ($page == $total_pages) { ?>
-                        <li class="disabled"><span aria-hidden="true">&raquo;</span></li>
-                    <?php } else { ?>
-                        <li><a href="products.php?page=<?php echo $page + 1 ?>" aria-label="Previous"><span
-                                        aria-hidden="true">&raquo;</span></a></li>
-                    <?php } ?>
-                </ul>
-            </nav>
-        </div>
-
-    </div>
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-    <script type="application/javascript">
-        var loadFile = function (event) {
-            var reader = new FileReader();
-            reader.onload = function () {
-                var output = document.getElementById('productPhoto');
-                output.src = reader.result;
-            };
-            reader.readAsDataURL(event.target.files[0]);
-            document.getElementById('productImageTitle').innerText = event.target.files[0]['name'];
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+<script type="application/javascript">
+    var loadFile = function (event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('productPhoto');
+            output.src = reader.result;
         };
-    </script>
+        reader.readAsDataURL(event.target.files[0]);
+        document.getElementById('productImageTitle').innerText = event.target.files[0]['name'];
+    };
+
+    $(document).ready(function () {
+        $("#productList").DataTable();
+    });
+</script>
 </body>
 </html>

@@ -121,13 +121,13 @@ if (isset($_POST['update'])) {
 
         // Image Upload
         $flag = uploadPhoto($_FILES['fileToUpload']);
-        if (isset($flag['status']) || $flag == 4) {
+        if (isset($flag['status'])) {
             $stmt = $conn->prepare("UPDATE tbl_products_a174652_pt2 SET FLD_PRODUCT_IMAGE = :image WHERE FLD_PRODUCT_ID = :oldpid LIMIT 1");
 
             $stmt->bindParam(':image', $flag['name']);
             $stmt->bindParam(':oldpid', $oldpid);
             $stmt->execute();
-        } else {
+        } elseif ($flag != 4) {
             if ($flag == 0)
                 $_SESSION['error'] = "Please make sure the file uploaded is an image.";
             elseif ($flag == 1)
