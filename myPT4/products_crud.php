@@ -4,7 +4,7 @@ include_once 'database.php';
 if (!isset($_SESSION['loggedin']))
     header("LOCATION: login.php");
 
-function uploadPhoto($file)
+function uploadPhoto($file, $isCreate = true)
 {
     $target_dir = "products/";
     $target_file = $target_dir . basename($file["name"]);
@@ -16,10 +16,14 @@ function uploadPhoto($file)
      * 2 = PNG & GIF files are allowed
      * 3 = Server error
      * 4 = No file were uploaded
+     * 5 = File already exists if the uploaded file name is same but not for update.
      */
 
     if ($file['error'] == 4)
         return 4;
+
+    if (file_exists($target_file) && $isCreate)
+        return 5;
 
     // Check if image file is a actual image or fake image
     if (!getimagesize($file['tmp_name']))
@@ -120,7 +124,7 @@ if (isset($_POST['update'])) {
         $stmt->execute();
 
         // Image Upload
-        $flag = uploadPhoto($_FILES['fileToUpload']);
+        $flag = uploadPhoto($_FILES['fileToUpload'], false);
         if (isset($flag['status'])) {
             $stmt = $conn->prepare("UPDATE tbl_products_a174652_pt2 SET FLD_PRODUCT_IMAGE = :image WHERE FLD_PRODUCT_ID = :oldpid LIMIT 1");
 
@@ -150,6 +154,68 @@ if (isset($_POST['update'])) {
 
     exit();
 }
+
+// Hanya update bila tiada error.
+/*
+if (isset($_POST['update'])) {
+    try {
+        // Image Upload
+        $flag = uploadPhoto($_FILES['fileToUpload'], false);
+        if (isset($flag['status']) || $flag == 4) {
+            $sql = "UPDATE tbl_products_a174652_pt2 SET
+                                    FLD_PRODUCT_NAME = :name, FLD_PRICE = :price, FLD_BRAND = :brand,
+                                    FLD_SOCKET = :socket, FLD_MANUFACTURED_YEAR = :year, FLD_STOCK = :stock";
+
+            if (isset($flag['status']))
+                $sql .= ", FLD_PRODUCT_IMAGE = :image ";
+
+            $sql .= "WHERE FLD_PRODUCT_ID = :oldpid LIMIT 1";
+
+            $stmt = $db->prepare($sql);
+            $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+            $stmt->bindParam(':price', $price, PDO::PARAM_STR);
+            $stmt->bindParam(':brand', $brand, PDO::PARAM_STR);
+            $stmt->bindParam(':socket', $socket, PDO::PARAM_STR);
+            $stmt->bindParam(':year', $year, PDO::PARAM_INT);
+            $stmt->bindParam(':stock', $stock, PDO::PARAM_INT);
+            $stmt->bindParam(':oldpid', $oldpid);
+
+            $name = $_POST['name'];
+            $price = $_POST['price'];
+            $brand = $_POST['brand'];
+            $socket = $_POST['socket'];
+            $year = $_POST['year'];
+            $stock = $_POST['stock'];
+            $oldpid = $_POST['oldpid'];
+
+            if (isset($flag['status']))
+                $stmt->bindParam(':image', $flag['name']);
+
+            $stmt->execute();
+        } else {
+            if ($flag == 0)
+                $_SESSION['error'] = "Please make sure the file uploaded is an image.";
+            elseif ($flag == 1)
+                $_SESSION['error'] = "Sorry, only file with below 10MB are allowed.";
+            elseif ($flag == 2)
+                $_SESSION['error'] = "Sorry, only PNG & GIF files are allowed.";
+            elseif ($flag == 3)
+                $_SESSION['error'] = "Sorry, there was an error uploading your file.";
+            else
+                $_SESSION['error'] = "An unknown error has been occurred.";
+        }
+    } catch (PDOException $e) {
+        $_SESSION['error'] = $e->getMessage();
+    }
+
+    if (isset($_SESSION['error']))
+        header("LOCATION: {$_SERVER['REQUEST_URI']}");
+    else
+        header("Location: products.php");
+
+    exit();
+}
+*/
 
 //Delete
 if (isset($_GET['delete'])) {

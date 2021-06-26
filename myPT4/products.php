@@ -54,7 +54,8 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                     ?>
                 </div>
 
-                <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" class="form-horizontal" enctype="multipart/form-data">
+                <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" class="form-horizontal"
+                      enctype="multipart/form-data">
                     <div class="col-md-8">
                         <?php
                         if (isset($_GET['edit']))
@@ -173,13 +174,16 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
 
                     <div class="col-md-4" style="height: 100%">
                         <div class="thumbnail dark-1">
-                            <img src="products/<?php echo (isset($_GET['edit']) ? $editrow['FLD_PRODUCT_IMAGE'] : '') ?>" onerror="this.onerror=null;this.src='products/no-photo.png';" id="productPhoto" alt="Product Image" style="width: 100%;height: 225px;">
+                            <img src="products/<?php echo(isset($_GET['edit']) ? $editrow['FLD_PRODUCT_IMAGE'] : '') ?>"
+                                 onerror="this.onerror=null;this.src='products/no-photo.png';" id="productPhoto"
+                                 alt="Product Image" style="width: 100%;height: 225px;">
                             <div class="caption text-center">
                                 <h3 id="productImageTitle" style="word-break: break-all;">Product Image</h3>
                                 <p>
                                     <label class="btn btn-primary">
-                                        <input type="file" accept="image/*" name="fileToUpload" id="inputImage" onchange="loadFile(event);" />
-                                        <i class="fa fa-cloud-upload"></i> Browse
+                                        <input type="file" accept="image/*" name="fileToUpload" id="inputImage"
+                                               onchange="loadFile(event);"/>
+                                        <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Browse
                                     </label>
                                     <?php
                                     if (isset($_GET['edit']) && $editrow['FLD_PRODUCT_IMAGE'] != '') {
@@ -242,7 +246,8 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                             <?php
                             if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') {
                                 ?>
-                                <a href="products.php?edit=<?php echo $readrow['FLD_PRODUCT_ID']; echo (isset($_GET['page']) ? '&page='.$_GET['page'] : ''); ?>"
+                                <a href="products.php?edit=<?php echo $readrow['FLD_PRODUCT_ID'];
+                                echo(isset($_GET['page']) ? '&page=' . $_GET['page'] : ''); ?>"
                                    class="btn btn-success btn-xs" role="button"> Edit </a>
                                 <a href="products.php?delete=<?php echo $readrow['FLD_PRODUCT_ID']; ?>"
                                    onclick="return confirm('Are you sure to delete?');" class="btn btn-danger btn-xs"
