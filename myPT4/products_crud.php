@@ -4,11 +4,14 @@ include_once 'database.php';
 if (!isset($_SESSION['loggedin']))
     header("LOCATION: login.php");
 
-function uploadPhoto($file, $isCreate = true)
+function uploadPhoto($file)
 {
     $target_dir = "products/";
-    $target_file = $target_dir . basename($file["name"]);
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    $filename = basename($file["name"]);
+    $imageFileType = strtolower(pathinfo($target_dir . $filename, PATHINFO_EXTENSION));
+
+    $newfilename = "{$filename}-".microtime().".{$imageFileType}";
+    $target_file = $target_dir . $newfilename;
 
     /*
      * 0 = image file is a fake image
@@ -16,14 +19,10 @@ function uploadPhoto($file, $isCreate = true)
      * 2 = PNG & GIF files are allowed
      * 3 = Server error
      * 4 = No file were uploaded
-     * 5 = File already exists if the uploaded file name is same but not for update.
      */
 
     if ($file['error'] == 4)
         return 4;
-
-    if (file_exists($target_file) && $isCreate)
-        return 5;
 
     // Check if image file is a actual image or fake image
     if (!getimagesize($file['tmp_name']))
@@ -40,7 +39,7 @@ function uploadPhoto($file, $isCreate = true)
     if (!move_uploaded_file($file["tmp_name"], $target_file))
         return 3;
 
-    return array('status' => 200, 'name' => basename($file["name"]));
+    return array('status' => 200, 'name' => $newfilename, 'ext' => $imageFileType);
 }
 
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -48,12 +47,12 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 //Create
 if (isset($_POST['create'])) {
-    $flag = uploadPhoto($_FILES['fileToUpload']);
+    $uploadStatus = uploadPhoto($_FILES['fileToUpload']);
 
-    if (isset($flag['status'])) {
+    if (isset($uploadStatus['status'])) {
         try {
             $stmt = $conn->prepare("INSERT INTO tbl_products_a174652_pt2(FLD_PRODUCT_NAME, FLD_PRICE, FLD_BRAND, FLD_SOCKET, FLD_MANUFACTURED_YEAR, FLD_STOCK, FLD_PRODUCT_IMAGE)
- VALUES (:name, :price, :brand, :socket, :year, :stock, :image)");
+               VALUES (:name, :price, :brand, :socket, :year, :stock, :image)");
 
             //$stmt->bindParam(':pid', $pid, PDO::PARAM_STR);
             $stmt->bindParam(':name', $name, PDO::PARAM_STR);
@@ -62,7 +61,7 @@ if (isset($_POST['create'])) {
             $stmt->bindParam(':socket', $socket, PDO::PARAM_STR);
             $stmt->bindParam(':year', $year, PDO::PARAM_INT);
             $stmt->bindParam(':stock', $stock, PDO::PARAM_INT);
-            $stmt->bindParam(':image', $flag['name']);
+            $stmt->bindParam(':image', $uploadStatus['name']);
 
             //$pid = $_POST['pid'];
             $name = $_POST['name'];
@@ -73,20 +72,26 @@ if (isset($_POST['create'])) {
             $stock = $_POST['stock'];
 
             $stmt->execute();
+
+            // Rename file after upload
+            //$id = $conn->lastInsertId();
+            //rename("products/{$uploadStatus['name']}", "products/{$id}.{$uploadStatus['ext']}");
         } catch (PDOException $e) {
             $_SESSION['error'] = $e->getMessage();
         }
     } else {
-        if ($flag == 0)
+        if ($uploadStatus == 0)
             $_SESSION['error'] = "Please make sure the file uploaded is an image.";
-        elseif ($flag == 1)
+        elseif ($uploadStatus == 1)
             $_SESSION['error'] = "Sorry, only file with below 10MB are allowed.";
-        elseif ($flag == 2)
+        elseif ($uploadStatus == 2)
             $_SESSION['error'] = "Sorry, only PNG & GIF files are allowed.";
-        elseif ($flag == 3)
+        elseif ($uploadStatus == 3)
             $_SESSION['error'] = "Sorry, there was an error uploading your file.";
-        elseif ($flag == 4)
+        elseif ($uploadStatus == 4)
             $_SESSION['error'] = 'Please upload an image.';
+        elseif ($uploadStatus == 5)
+            $_SESSION['error'] = 'File already exists. Please rename your file before upload.';
         else
             $_SESSION['error'] = "An unknown error has been occurred.";
     }
@@ -99,9 +104,9 @@ if (isset($_POST['create'])) {
 if (isset($_POST['update'])) {
     try {
         $stmt = $conn->prepare("UPDATE tbl_products_a174652_pt2 SET
-      FLD_PRODUCT_NAME = :name, FLD_PRICE = :price, FLD_BRAND = :brand,
-      FLD_SOCKET = :socket, FLD_MANUFACTURED_YEAR = :year, FLD_STOCK = :stock
-      WHERE FLD_PRODUCT_ID = :oldpid LIMIT 1");
+          FLD_PRODUCT_NAME = :name, FLD_PRICE = :price, FLD_BRAND = :brand,
+          FLD_SOCKET = :socket, FLD_MANUFACTURED_YEAR = :year, FLD_STOCK = :stock
+          WHERE FLD_PRODUCT_ID = :oldpid LIMIT 1");
 
         //$stmt->bindParam(':pid', $pid, PDO::PARAM_STR);
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
@@ -131,6 +136,9 @@ if (isset($_POST['update'])) {
             $stmt->bindParam(':image', $flag['name']);
             $stmt->bindParam(':oldpid', $oldpid);
             $stmt->execute();
+
+            // Rename file after upload
+            // rename("products/{$uploadStatus['name']}", "products/{$oldpid}.{$uploadStatus['ext']}");
         } elseif ($flag != 4) {
             if ($flag == 0)
                 $_SESSION['error'] = "Please make sure the file uploaded is an image.";
