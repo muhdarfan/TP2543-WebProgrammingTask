@@ -78,7 +78,7 @@ include_once 'orders_details_crud.php';
           <div class="page-header">
             <h2>Add a Product</h2>
           </div>
-          <form action="orders_details.php" method="post" class="form-horizontal" name="frmorder" id="forder" onsubmit="return validateForm()">
+          <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" class="form-horizontal" name="frmorder" id="forder" onsubmit="return validateForm()">
             <div class="form-group">
               <label for="prd" class="col-sm-3 control-label">Product</label>
               <div class="col-sm-9">

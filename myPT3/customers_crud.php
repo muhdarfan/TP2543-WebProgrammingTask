@@ -1,5 +1,4 @@
 <?php
-
 include_once 'database.php';
 
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -23,10 +22,8 @@ if (isset($_POST['create'])) {
     $phone = $_POST['phone'];
 
     $stmt->execute();
-  }
-
-  catch(PDOException $e)
-  {
+    header("LOCATION: {$_SERVER['REQUEST_URI']}");
+  } catch(PDOException $e) {
     echo "Error: " . $e->getMessage();
   }
 }
@@ -49,7 +46,7 @@ if (isset($_POST['update'])) {
     $oldcid = $_POST['oldcid'];
     
     $stmt->execute();
-    //header("Location: customers.php");
+    header("LOCATION: {$_SERVER['REQUEST_URI']}");
   } catch(PDOException $e) {
     echo "Error: " . $e->getMessage();
   }
@@ -69,10 +66,7 @@ if (isset($_GET['delete'])) {
     $stmt->execute();
 
     header("Location: customers.php");
-  }
-
-  catch(PDOException $e)
-  {
+  } catch(PDOException $e) {
     echo "Error: " . $e->getMessage();
   }
 }
@@ -92,10 +86,7 @@ if (isset($_GET['edit'])) {
     $stmt->execute();
 
     $editrow = $stmt->fetch(PDO::FETCH_ASSOC);
-  }
-
-  catch(PDOException $e)
-  {
+  } catch(PDOException $e) {
     echo "Error: " . $e->getMessage();
   }
 }

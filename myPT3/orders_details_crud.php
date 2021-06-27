@@ -1,5 +1,4 @@
 <?php
-
 include_once 'database.php';
 
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -7,7 +6,6 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 //Create
 if (isset($_POST['addproduct'])) {
- 
   try {
    
     $stmt = $conn->prepare("INSERT INTO tbl_orders_details_a174652(fld_order_detail_num,
@@ -25,20 +23,15 @@ if (isset($_POST['addproduct'])) {
     $quantity= $_POST['quantity'];
     
     $stmt->execute();
-  }
-  
-  catch(PDOException $e)
-  {
+    header("LOCATION: {$_SERVER['REQUEST_URI']}");
+  } catch(PDOException $e) {
     echo "Error: " . $e->getMessage();
   }
-  $_GET['oid'] = $oid;
 }
 
 //Delete
 if (isset($_GET['delete'])) {
- 
   try {
-   
     $stmt = $conn->prepare("DELETE FROM tbl_orders_details_a174652 where fld_order_detail_num = :did");
     
     $stmt->bindParam(':did', $did, PDO::PARAM_STR);
@@ -47,11 +40,8 @@ if (isset($_GET['delete'])) {
     
     $stmt->execute();
     
-    header("Location: orders_details.php?oid=".$_GET['oid']);
-  }
-  
-  catch(PDOException $e)
-  {
+    header("LOCATION: {$_SERVER['REQUEST_URI']}");
+  } catch(PDOException $e) {
     echo "Error: " . $e->getMessage();
   }
 }

@@ -1,5 +1,4 @@
 <?php
-
 include_once 'database.php';
 
 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -7,9 +6,7 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 //Create
 if (isset($_POST['create'])) {
-
   try {
-
     $stmt = $conn->prepare("INSERT INTO tbl_staffs_a174652_pt2(FLD_STAFF_NAME, 
       FLD_STAFF_GENDER, FLD_STAFF_PHONE) VALUES(:name, :gender, :phone)");
 
@@ -24,6 +21,8 @@ if (isset($_POST['create'])) {
     $phone = $_POST['phone'];
 
     $stmt->execute();
+
+    header("LOCATION: {$_SERVER['REQUEST_URI']}");
   } catch(PDOException $e) {
     echo "Error: " . $e->getMessage();
   }
@@ -47,7 +46,7 @@ if (isset($_POST['update'])) {
     $oldsid = $_POST['oldsid'];
 
     $stmt->execute();
-    header("Location: staffs.php");
+    header("LOCATION: {$_SERVER['REQUEST_URI']}");
   } catch(PDOException $e) {
     echo "Error: " . $e->getMessage();
   }
@@ -64,7 +63,7 @@ if (isset($_GET['delete'])) {
 
     $stmt->execute();
 
-    header("Location: staffs.php");
+    header("LOCATION: {$_SERVER['REQUEST_URI']}");
   } catch(PDOException $e) {
     echo "Error: " . $e->getMessage();
   }
