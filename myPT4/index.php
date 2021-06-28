@@ -11,7 +11,7 @@ if (!isset($_SESSION['loggedin']))
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>My Motherboard Ordering System : Home</title>
+    <title>EagleZ Inventory System : Home</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
@@ -21,37 +21,47 @@ if (!isset($_SESSION['loggedin']))
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+<![endif]-->
 </head>
 <body>
-<?php include_once 'nav_bar.inc'; ?>
 
-<section class="container-fluid" style="background: #1E2C4E;padding: 3rem;">
-    <div class="container content">
-        <div class="text-center" style="margin-bottom: 3rem;">
-            <div class="row">
-                <div class="col-md-12">
-                    <h1>EagleZ Motherboard Ordering System</h1>
-                    <hr style="border-top: 1px solid transparent;"/>
-                    <p class="text-muted">Search product by model, type, price or all three.</p>
-                </div>
-                <div class="col-md-12">
-                    <form action="#" method="POST" id="searchForm">
-                        <div class="form-group">
-                            <input type="text" class="form-control text-center input-lg" id="inputSearch" name="search"
-                                   placeholder="ASUS MAXIMUS 93.00 Asus" autocomplete="off" required>
-                            <span id="helpBlock2" class="help-block"></span>
-                        </div>
+    <section class="main-panel">
+        <div class="overlay"></div>
+        <iframe class="video" frameborder="0" height="100%" width="100%" volume="0"
+        src="https://www.youtube.com/embed/wl00f0EjZHs?autoplay=1&autohide=1&controls=0&showinfo=0&mute=1" allow="autoplay;" allowfullscreen>
+    </iframe>
 
-                        <button type="submit" class="btn btn-lg btn-primary">Search</button>
-                    </form>
+    <?php include_once 'nav_bar.inc'; ?>
+
+    <div class="container-fluid" style="height: 80%;display: flex;justify-content: center;align-items: center;">
+        <div class="container content">
+            <div class="text-center" style="margin-bottom: 3rem;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>EagleZ Motherboard Ordering System</h1>
+                        <hr style="border-top: 1px solid transparent;"/>
+                        <p>Search product by model, type, price or all three.</p>
+                    </div>
+                    <div class="col-md-offset-2 col-md-8">
+                        <form action="#" method="POST" id="searchForm">
+                            <div class="form-group">
+                                <input type="text" class="form-control text-center input-lg" id="inputSearch"
+                                name="search"
+                                placeholder="ASUS MAXIMUS 93.00 Asus" autocomplete="off" required />
+                                <span id="helpBlock2" class="help-block"></span>
+                            </div>
+
+                            <button type="submit" class="btn btn-lg btn-primary">Search</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 </section>
 
-<section class="container resultList" style="padding: 20px;display: none;">
+<section id="resultSection" class="container resultList" style="padding: 20px;display: none;">
     <div class="text-center">
         <h2>Result</h2>
         <p>Found <span class="result-count">0</span> results.</p>
@@ -75,32 +85,50 @@ if (!isset($_SESSION['loggedin']))
         input.parent().find("#helpBlock2").text("");
 
         if (val.length > 2) {
-            $.get('ajax/search.php', {search: val}).done(function (res) {
-                $('.list-item').empty();
+            $.ajax({
+                url: 'ajax/search.php',
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    search: val
+                },
+                beforeSend: function() {
+                    input.addClass('disabled');
+                },
+                success: function(res) {
+                    $('.list-item').empty();
 
-                if (res.status == 200) {
-                    $(".result-count").text(res.data.length);
+                    if (res.status == 200) {
+                        $(".result-count").text(res.data.length);
 
-                    $.each(res.data, function (idx, data) {
-                        if (data.FLD_PRODUCT_IMAGE === '')
-                            data.FLD_PRODUCT_IMAGE = data.FLD_PRODUCT_ID + '.png';
+                        $.each(res.data, function (idx, data) {
+                            if (data.FLD_PRODUCT_IMAGE === '')
+                                data.FLD_PRODUCT_IMAGE = data.FLD_PRODUCT_ID + '.png';
 
-                        $('.list-item').append(`<div class="col-md-4">
-            <div class="thumbnail">
-                <img src="products/${data.FLD_PRODUCT_IMAGE}" alt="${data.FLD_PRODUCT_NAME}" style="height: 345px;">
-                <div class="caption text-center">
-                    <h3>${data.FLD_PRODUCT_NAME}</h3>
-                    <p>
-                        <a href="products_details.php?pid=${data.FLD_PRODUCT_ID}" class="btn btn-primary" role="button">View</a>
-                    </p>
-                </div>
-            </div>
-        </div>`);
-                    });
+                            $('.list-item').append(`<div class="col-md-4">
+                                <div class="thumbnail">
+                                <img src="products/${data.FLD_PRODUCT_IMAGE}" alt="${data.FLD_PRODUCT_NAME}" style="height: 345px;">
+                                <div class="caption text-center">
+                                <h3>${data.FLD_PRODUCT_NAME}</h3>
+                                <p>
+                                <a href="products_details.php?pid=${data.FLD_PRODUCT_ID}" class="btn btn-primary" role="button">View</a>
+                                </p>
+                                </div>
+                                </div>
+                                </div>`);
+                        });
+
+                        $(".resultList").show("slow", function() {
+                            $('html, body').animate({
+                                scrollTop: $("#resultSection").offset().top
+                            }, 500);
+                        });
+                    }
+                },
+                complete: function() {
+                    input.removeClass('disabled');
                 }
             });
-
-            $(".resultList").show("slow");
         } else {
             input.parent().addClass("has-error");
             input.parent().find("#helpBlock2").text("Please enter more than 2 characters.");

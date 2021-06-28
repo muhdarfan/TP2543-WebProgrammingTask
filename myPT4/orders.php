@@ -8,7 +8,7 @@ include_once 'orders_crud.php';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>My Motherboard Ordering System : Orders</title>
+    <title>EagleZ Inventory System : Orders</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
@@ -177,6 +177,7 @@ include_once 'orders_crud.php';
                         <td class="text-center">
                             <a href="orders_details.php?oid=<?php echo $orderrow['fld_order_num']; ?>"
                                class="btn btn-warning btn-xs" role="button"> Details </a>
+
                             <?php
                             if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') {
                                 ?>

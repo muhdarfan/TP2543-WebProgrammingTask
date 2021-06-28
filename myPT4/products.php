@@ -9,7 +9,7 @@ include_once 'products_crud.php';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>My Motherboard Ordering System : Products</title>
+    <title>EagleZ Inventory System : Products</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
@@ -59,7 +59,9 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                     <div class="col-md-8">
                         <?php
                         if (isset($_GET['edit']))
-                            echo "<input type='hidden' name='pid' value='" . $editrow['FLD_PRODUCT_ID'] . "' />";
+                            echo "<input type='hidden' name='pid' value='{$editrow['FLD_PRODUCT_ID']}' />";
+                        else
+                            echo "<input type='hidden' name='pid' value='{$product['Auto_increment']}' />";
                         ?>
 
                         <div class="form-group">
@@ -154,8 +156,6 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-9">
                                 <?php if (isset($_GET['edit'])) { ?>
-                                    <input type="hidden" name="oldpid"
-                                           value="<?php echo $editrow['FLD_PRODUCT_ID']; ?>">
                                     <button class="btn btn-default" type="submit" name="update"><span
                                                 class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Update
                                     </button>

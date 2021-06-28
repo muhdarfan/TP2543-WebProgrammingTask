@@ -41,7 +41,7 @@ if (isset($_GET['delete'])) {
 
     $stmt->execute();
 
-    header("LOCATION: {$_SERVER['REQUEST_URI']}");
+    header("LOCATION: {$_SERVER['PHP_SELF']}?oid={$_GET['oid']}");
   } catch(PDOException $e) {
     echo "Error: " . $e->getMessage();
   }

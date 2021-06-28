@@ -8,7 +8,7 @@ require 'database.php';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>My Motherboard Ordering System : Home</title>
+    <title>EagleZ Inventory System : Home</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet"/>
     <link href="css/main.css" rel="stylesheet"/>
@@ -27,7 +27,7 @@ require 'database.php';
     <?php
     unset($_SESSION);
     session_destroy();
-    header( "refresh:5;url=login.php" );
+    header( "refresh:5;url=login.php");
     ?>
     <h1>Logged Out</h1>
     <p>Thank you for using EagleZ Motherboard Ordering System.</p>
