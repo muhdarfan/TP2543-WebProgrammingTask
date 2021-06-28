@@ -48,6 +48,8 @@ if (isset($_POST['userid'], $_POST['password'])) {
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/login.css" rel="stylesheet">
 
+    <link rel="shortcut icon" type="image/jpg" href="favicon.ico"/>
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -69,12 +71,19 @@ if (isset($_POST['userid'], $_POST['password'])) {
             <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="POST">
                 <div class="form-group">
                     <label for="inputUserID">Email address / User ID</label>
-                    <input type="text" class="form-control" id="inputUserID" name="userid"
-                           placeholder="Email address / User ID">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
+                        <input type="text" class="form-control" id="inputUserID" name="userid"
+                               placeholder="Email address / User ID">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="inputUserPass">Password</label>
-                    <input type="password" class="form-control" id="inputUserPass" name="password" placeholder="Password">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"><i class="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
+                        <input type="password" class="form-control" id="inputUserPass" name="password"
+                               placeholder="Password">
+                    </div>
                 </div>
 
                 <?php
@@ -88,13 +97,65 @@ if (isset($_POST['userid'], $_POST['password'])) {
 
             <hr/>
             <p class="text-center">
-                Don't have an account? Click <a href="register.php">here</a> to register.
+                Don't have an account? Click <a href="register.php">here</a> to register.<br/>
+                Click <a href="#" data-toggle="modal" data-target="#demoAccountModal">here</a> to retrieve demo account.
             </p>
         </div>
     </div>
 
     <p style="color: #AAAAAA;">Copyright &copy; <?php echo date('Y'); ?> Arfan (<a
-                target="_blank" href="http://lepak.xyz">@lepak.xyz)</a>. A174652</p>
+                target="_blank" href="http://lepak.xyz">@lepak.xyz</a>) &ndash; A174652</p>
 </div>
+
+<div class="modal fade" id="demoAccountModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Demo Account</h4>
+            </div>
+            <div class="modal-body">
+                <div class="list-group">
+                    <div href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">Admin Account</h4>
+                        <p class="list-group-item-text">
+                        <dl class="dl-horizontal">
+                            <dt>Staff ID</dt>
+                            <dd>1</dd>
+                            <dt>Email</dt>
+                            <dd>ali@ukm.my</dd>
+                            <dt>Password</dt>
+                            <dd>1234</dd>
+                        </dl>
+                        </p>
+                    </div>
+
+                    <div href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">Normal Staff Account</h4>
+                        <p class="list-group-item-text">
+                        <dl class="dl-horizontal">
+                            <dt>Staff ID</dt>
+                            <dd>2</dd>
+                            <dt>Email</dt>
+                            <dd>syafiqah@ukm.my</dd>
+                            <dt>Password</dt>
+                            <dd>1234</dd>
+                        </dl>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align: center">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>

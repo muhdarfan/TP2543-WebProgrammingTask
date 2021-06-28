@@ -1,5 +1,9 @@
 <?php
 require 'database.php';
+
+//if (!isset($_SESSION['loggedin']))
+ //   header("LOCATION: login.php");
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -12,6 +16,8 @@ require 'database.php';
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet"/>
     <link href="css/main.css" rel="stylesheet"/>
+
+    <link rel="shortcut icon" type="image/jpg" href="favicon.ico" />
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -29,11 +35,14 @@ require 'database.php';
     session_destroy();
     header( "refresh:5;url=login.php");
     ?>
-    <h1>Logged Out</h1>
-    <p>Thank you for using EagleZ Motherboard Ordering System.</p>
+    <div style="padding: 3rem;background: rgba(0, 0, 0, 0.2);border-radius: 5px;">
+        <h1>Logged Out</h1>
+        <p>Thank you for using EagleZ Motherboard Ordering System.</p>
 
-    <p class="text-muted">Click the button below if you've not been redirected in 5 second(s).</p>
-    <a class="btn btn-primary" href="login.php" role="button">Redirect</a>
+        <p class="text-muted">Click the button below if you've not been redirected in 5 second(s).</p>
+        <a class="btn btn-primary" href="login.php" role="button">Redirect</a>
+    </div>
+
 </div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

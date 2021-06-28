@@ -12,23 +12,56 @@ if (!isset($_SESSION['loggedin']))
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>EagleZ Inventory System : Home</title>
+
+    <link rel="shortcut icon" type="image/jpg" href="favicon.ico" />
+
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
+
+    <style>
+        .modal {
+            display:    none;
+            position:   fixed;
+            z-index:    1000;
+            top:        0;
+            left:       0;
+            height:     100%;
+            width:      100%;
+            background: rgba(0,0,0,0.6)
+            url('http://i.stack.imgur.com/FhHRx.gif')
+            50% 50%
+            no-repeat;
+        }
+
+        /* When the body has the loading class, we turn
+           the scrollbar off with overflow:hidden */
+        body.loading .modal {
+            overflow: hidden;
+        }
+
+        /* Anytime the body has the loading class, our
+           modal element will be visible */
+        body.loading .modal {
+            display: block;
+        }
+    </style>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+    <![endif]-->
 </head>
 <body>
+<div class="modal"><!-- Place at bottom of page --></div>
 
-    <section class="main-panel">
-        <div class="overlay"></div>
-        <iframe class="video" frameborder="0" height="100%" width="100%" volume="0"
-        src="https://www.youtube.com/embed/wl00f0EjZHs?autoplay=1&autohide=1&controls=0&showinfo=0&mute=1" allow="autoplay;" allowfullscreen>
+<section class="main-panel">
+    <div class="overlay"></div>
+    <iframe class="video" frameborder="0" height="100%" width="100%" volume="0"
+            src="https://www.youtube.com/embed/wl00f0EjZHs?autoplay=1&autohide=1&controls=0&showinfo=0&mute=1"
+            allow="autoplay;" allowfullscreen>
     </iframe>
 
     <?php include_once 'nav_bar.inc'; ?>
@@ -46,8 +79,8 @@ if (!isset($_SESSION['loggedin']))
                         <form action="#" method="POST" id="searchForm">
                             <div class="form-group">
                                 <input type="text" class="form-control text-center input-lg" id="inputSearch"
-                                name="search"
-                                placeholder="ASUS MAXIMUS 93.00 Asus" autocomplete="off" required />
+                                       name="search"
+                                       placeholder="ASUS MAXIMUS 93.00 Asus" autocomplete="off" required/>
                                 <span id="helpBlock2" class="help-block"></span>
                             </div>
 
@@ -92,10 +125,11 @@ if (!isset($_SESSION['loggedin']))
                 data: {
                     search: val
                 },
-                beforeSend: function() {
+                beforeSend: function () {
+                    $("body").addClass('loading');
                     input.addClass('disabled');
                 },
-                success: function(res) {
+                success: function (res) {
                     $('.list-item').empty();
 
                     if (res.status == 200) {
@@ -106,7 +140,7 @@ if (!isset($_SESSION['loggedin']))
                                 data.FLD_PRODUCT_IMAGE = data.FLD_PRODUCT_ID + '.png';
 
                             $('.list-item').append(`<div class="col-md-4">
-                                <div class="thumbnail">
+                                <div class="thumbnail thumbnail-dark">
                                 <img src="products/${data.FLD_PRODUCT_IMAGE}" alt="${data.FLD_PRODUCT_NAME}" style="height: 345px;">
                                 <div class="caption text-center">
                                 <h3>${data.FLD_PRODUCT_NAME}</h3>
@@ -118,14 +152,16 @@ if (!isset($_SESSION['loggedin']))
                                 </div>`);
                         });
 
-                        $(".resultList").show("slow", function() {
+                        $(".resultList").show("slow", function () {
+                            $("body").removeClass('loading');
+
                             $('html, body').animate({
                                 scrollTop: $("#resultSection").offset().top
                             }, 500);
                         });
                     }
                 },
-                complete: function() {
+                complete: function () {
                     input.removeClass('disabled');
                 }
             });
