@@ -14,7 +14,7 @@ include_once 'products_crud.php';
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
 
-    <link rel="shortcut icon" type="image/jpg" href="favicon.ico" />
+    <link rel="shortcut icon" type="image/jpg" href="favicon.ico"/>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,177 +32,178 @@ include_once 'products_crud.php';
 <body>
 <?php include_once 'nav_bar.inc'; ?>
 <?php
-if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') {
-    ?>
-    <div class="container-fluid dark" style="padding-bottom: 30px;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="page-header">
-                        <?php
-                        if (isset($editrow) && count($editrow) > 0) {
-                            echo "<h2>Editing #" . $fID . "</h2>";
-                        } else {
-                            echo "<h2>Create New Product</h2>";
-                        }
-                        ?>
-                    </div>
-
+// Shows form if the user is logged in AND have admin role.
+//if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') {
+?>
+<div class="container-fluid dark" style="padding-bottom: 30px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="page-header">
                     <?php
-                    if (isset($_SESSION['error'])) {
-                        echo "<p class='text-danger text-center'>{$_SESSION['error']}</p>";
-                        unset($_SESSION['error']);
+                    if (isset($editrow) && count($editrow) > 0) {
+                        echo "<h2>Editing #" . $fID . "</h2>";
+                    } else {
+                        echo "<h2>Create New Product</h2>";
                     }
                     ?>
                 </div>
 
-                <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" class="form-horizontal"
-                      enctype="multipart/form-data">
-                    <div class="col-md-8">
-                        <?php
-                        if (isset($_GET['edit']))
-                            echo "<input type='hidden' name='pid' value='{$editrow['FLD_PRODUCT_ID']}' />";
-                        else
-                            echo "<input type='hidden' name='pid' value='{$product['Auto_increment']}' />";
-                        ?>
-
-                        <div class="form-group">
-                            <label for="productid" class="col-sm-3 control-label">ID</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="productid" placeholder="Product ID"
-                                       value="<?php if (isset($_GET['edit'])) echo $fID; else echo $NextID; ?>" readonly
-                                       required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="productname" class="col-sm-3 control-label">Name</label>
-                            <div class="col-sm-9">
-                                <input name="name" type="text" class="form-control" id="productname"
-                                       placeholder="Product Name"
-                                       value="<?php if (isset($_GET['edit'])) echo $editrow['FLD_PRODUCT_NAME']; ?>"
-                                       required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="productprice" class="col-sm-3 control-label">Price</label>
-                            <div class="col-sm-9">
-                                <input name="price" type="number" class="form-control" id="productprice"
-                                       placeholder="Product Price"
-                                       value="<?php if (isset($_GET['edit'])) echo number_format($editrow['FLD_PRICE'], 2); ?>"
-                                       min="0.0" step="0.01" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="productbrand" class="col-sm-3 control-label">Brand</label>
-                            <div class="col-sm-9">
-                                <select name="brand" class="form-control" id="productbrand" required>
-                                    <option value="">Please select</option>
-                                    <option value="Asrock" <?php if (isset($_GET['edit'])) if ($editrow['FLD_BRAND'] == "Asrock") echo "selected"; ?>>
-                                        Asrock
-                                    </option>
-                                    <option value="Asus" <?php if (isset($_GET['edit'])) if ($editrow['FLD_BRAND'] == "Asus") echo "selected"; ?>>
-                                        Asus
-                                    </option>
-                                    <option value="Biostar" <?php if (isset($_GET['edit'])) if ($editrow['FLD_BRAND'] == "Biostar") echo "selected"; ?>>
-                                        Biostar
-                                    </option>
-                                    <option value="Gigabyte" <?php if (isset($_GET['edit'])) if ($editrow['FLD_BRAND'] == "Gigabyte") echo "selected"; ?>>
-                                        Gigabyte
-                                    </option>
-                                    <option value="MSI" <?php if (isset($_GET['edit'])) if ($editrow['FLD_BRAND'] == "MSI") echo "selected"; ?>>
-                                        MSI
-                                    </option>
-                                    <option value="Maxsun" <?php if (isset($_GET['edit'])) if ($editrow['FLD_BRAND'] == "Maxsun") echo "selected"; ?>>
-                                        Maxsun
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="productsocket" class="col-sm-3 control-label">Socket</label>
-                            <div class="col-sm-9">
-                                <input name="socket" type="text" class="form-control" id="productsocket"
-                                       placeholder="Product Socket"
-                                       value="<?php if (isset($_GET['edit'])) echo $editrow['FLD_SOCKET']; ?>" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="productyear" class="col-sm-3 control-label">Manufacturing Year</label>
-                            <div class="col-sm-9">
-                                <select name="year" class="form-control" id="productyear" required>
-                                    <option value="">Please select</option>
-                                    <?php
-                                    foreach (range(date('Y'), 2000) as $year) {
-                                        echo "<option value='{$year}' " . ($year == $editrow['FLD_MANUFACTURED_YEAR'] ? 'selected' : '') . ">{$year}</option>";
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="productstock" class="col-sm-3 control-label">Stock</label>
-                            <div class="col-sm-9">
-                                <input name="stock" type="number" class="form-control" id="productstock"
-                                       placeholder="Product Stock"
-                                       value="<?php if (isset($_GET['edit'])) echo $editrow['FLD_STOCK']; ?>" min="0"
-                                       required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-sm-offset-3 col-sm-9">
-                                <?php if (isset($_GET['edit'])) { ?>
-                                    <button class="btn btn-default" type="submit" name="update"><span
-                                                class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Update
-                                    </button>
-                                <?php } else { ?>
-                                    <button class="btn btn-default" type="submit" name="create"><span
-                                                class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create
-                                    </button>
-                                <?php } ?>
-                                <button class="btn btn-default" type="reset"><span class="glyphicon glyphicon-erase"
-                                                                                   aria-hidden="true"></span> Clear
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="col-md-4" style="height: 100%">
-                        <div class="thumbnail dark-1">
-                            <img src="products/<?php echo(isset($_GET['edit']) ? $editrow['FLD_PRODUCT_IMAGE'] : '') ?>"
-                                 onerror="this.onerror=null;this.src='products/no-photo.png';" id="productPhoto"
-                                 alt="Product Image" style="width: 100%;height: 225px;">
-                            <div class="caption text-center">
-                                <h3 id="productImageTitle" style="word-break: break-all;">Product Image</h3>
-                                <p>
-                                    <label class="btn btn-primary">
-                                        <input type="file" accept="image/*" name="fileToUpload" id="inputImage"
-                                               onchange="loadFile(event);"/>
-                                        <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Browse
-                                    </label>
-                                    <?php
-                                    if (isset($_GET['edit']) && $editrow['FLD_PRODUCT_IMAGE'] != '') {
-                                        echo '<a href="#" class="btn btn-danger disabled" role="button">Delete</a>';
-                                    }
-                                    ?>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                </form>
+                <?php
+                if (isset($_SESSION['error'])) {
+                    echo "<p class='text-danger text-center'>{$_SESSION['error']}</p>";
+                    unset($_SESSION['error']);
+                }
+                ?>
             </div>
+
+            <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" class="form-horizontal"
+                  enctype="multipart/form-data">
+                <div class="col-md-8">
+                    <?php
+                    if (isset($_GET['edit']))
+                        echo "<input type='hidden' name='pid' value='{$editrow['FLD_PRODUCT_ID']}' />";
+                    else
+                        echo "<input type='hidden' name='pid' value='{$product['Auto_increment']}' />";
+                    ?>
+
+                    <div class="form-group">
+                        <label for="productid" class="col-sm-3 control-label">ID</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="productid" placeholder="Product ID"
+                                   value="<?php if (isset($_GET['edit'])) echo $fID; else echo $NextID; ?>" readonly
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productname" class="col-sm-3 control-label">Name</label>
+                        <div class="col-sm-9">
+                            <input name="name" type="text" class="form-control" id="productname"
+                                   placeholder="Product Name"
+                                   value="<?php if (isset($_GET['edit'])) echo $editrow['FLD_PRODUCT_NAME']; ?>"
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productprice" class="col-sm-3 control-label">Price</label>
+                        <div class="col-sm-9">
+                            <input name="price" type="number" class="form-control" id="productprice"
+                                   placeholder="Product Price"
+                                   value="<?php if (isset($_GET['edit'])) echo number_format($editrow['FLD_PRICE'], 2); ?>"
+                                   min="0.0" step="0.01" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productbrand" class="col-sm-3 control-label">Brand</label>
+                        <div class="col-sm-9">
+                            <select name="brand" class="form-control" id="productbrand" required>
+                                <option value="">Please select</option>
+                                <option value="Asrock" <?php if (isset($_GET['edit'])) if ($editrow['FLD_BRAND'] == "Asrock") echo "selected"; ?>>
+                                    Asrock
+                                </option>
+                                <option value="Asus" <?php if (isset($_GET['edit'])) if ($editrow['FLD_BRAND'] == "Asus") echo "selected"; ?>>
+                                    Asus
+                                </option>
+                                <option value="Biostar" <?php if (isset($_GET['edit'])) if ($editrow['FLD_BRAND'] == "Biostar") echo "selected"; ?>>
+                                    Biostar
+                                </option>
+                                <option value="Gigabyte" <?php if (isset($_GET['edit'])) if ($editrow['FLD_BRAND'] == "Gigabyte") echo "selected"; ?>>
+                                    Gigabyte
+                                </option>
+                                <option value="MSI" <?php if (isset($_GET['edit'])) if ($editrow['FLD_BRAND'] == "MSI") echo "selected"; ?>>
+                                    MSI
+                                </option>
+                                <option value="Maxsun" <?php if (isset($_GET['edit'])) if ($editrow['FLD_BRAND'] == "Maxsun") echo "selected"; ?>>
+                                    Maxsun
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productsocket" class="col-sm-3 control-label">Socket</label>
+                        <div class="col-sm-9">
+                            <input name="socket" type="text" class="form-control" id="productsocket"
+                                   placeholder="Product Socket"
+                                   value="<?php if (isset($_GET['edit'])) echo $editrow['FLD_SOCKET']; ?>" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productyear" class="col-sm-3 control-label">Manufacturing Year</label>
+                        <div class="col-sm-9">
+                            <select name="year" class="form-control" id="productyear" required>
+                                <option value="">Please select</option>
+                                <?php
+                                foreach (range(date('Y'), 2000) as $year) {
+                                    echo "<option value='{$year}' " . ($year == $editrow['FLD_MANUFACTURED_YEAR'] ? 'selected' : '') . ">{$year}</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productstock" class="col-sm-3 control-label">Stock</label>
+                        <div class="col-sm-9">
+                            <input name="stock" type="number" class="form-control" id="productstock"
+                                   placeholder="Product Stock"
+                                   value="<?php if (isset($_GET['edit'])) echo $editrow['FLD_STOCK']; ?>" min="0"
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <?php if (isset($_GET['edit'])) { ?>
+                                <button class="btn btn-default" type="submit" name="update"><span
+                                            class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Update
+                                </button>
+                            <?php } else { ?>
+                                <button class="btn btn-default" type="submit" name="create"><span
+                                            class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create
+                                </button>
+                            <?php } ?>
+                            <button class="btn btn-default" type="reset"><span class="glyphicon glyphicon-erase"
+                                                                               aria-hidden="true"></span> Clear
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-4" style="height: 100%">
+                    <div class="thumbnail dark-1">
+                        <img src="products/<?php echo(isset($_GET['edit']) ? $editrow['FLD_PRODUCT_IMAGE'] : '') ?>"
+                             onerror="this.onerror=null;this.src='products/no-photo.png';" id="productPhoto"
+                             alt="Product Image" style="width: 100%;height: 225px;">
+                        <div class="caption text-center">
+                            <h3 id="productImageTitle" style="word-break: break-all;">Product Image</h3>
+                            <p>
+                                <label class="btn btn-primary">
+                                    <input type="file" accept="image/*" name="fileToUpload" id="inputImage"
+                                           onchange="loadFile(event);"/>
+                                    <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Browse
+                                </label>
+                                <?php
+                                if (isset($_GET['edit']) && $editrow['FLD_PRODUCT_IMAGE'] != '') {
+                                    echo '<a href="#" class="btn btn-danger disabled" role="button">Delete</a>';
+                                }
+                                ?>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
         </div>
     </div>
+</div>
 
-<?php } ?>
+<?php // } ?>
 
 <div class="container-fluid">
     <div class="row">

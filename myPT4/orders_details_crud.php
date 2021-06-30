@@ -16,7 +16,6 @@ if (isset($_POST['addproduct'])) {
         $stmt = $conn->prepare("INSERT INTO tbl_orders_details_a174652(fld_order_detail_num,
       fld_order_num, fld_product_num, fld_order_detail_quantity) VALUES(:did, :oid,
       :pid, :quantity)");
-
         $stmt->bindParam(':did', $did, PDO::PARAM_STR);
         $stmt->bindParam(':oid', $oid, PDO::PARAM_STR);
         $stmt->bindParam(':pid', $pid, PDO::PARAM_STR);
@@ -28,11 +27,12 @@ if (isset($_POST['addproduct'])) {
         $quantity = $_POST['quantity'];
 
         $stmt->execute();
-
-        header("LOCATION: {$_SERVER['REQUEST_URI']}");
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        $_SESSION['error'] = "Error while adding: " . $e->getMessage();
     }
+
+    header("LOCATION: {$_SERVER['REQUEST_URI']}");
+    exit();
 }
 
 //Delete
@@ -44,10 +44,11 @@ if (isset($_GET['delete'])) {
         $did = $_GET['delete'];
 
         $stmt->execute();
-
-        header("LOCATION: {$_SERVER['REQUEST_URI']}");
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        $_SESSION['error'] = "Error: " . $e->getMessage();
     }
+
+    header("LOCATION: {$_SERVER['PHP_SELF']}?oid={$_GET['oid']}");
+    exit();
 }
 ?>

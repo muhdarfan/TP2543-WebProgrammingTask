@@ -1,5 +1,5 @@
-<nav class="navbar navbar-dark">
-    <div class="container">
+<nav class="navbar navbar-custom-dark">
+    <div class="container-fluid" style="position: relative;z-index: 2;">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -16,9 +16,10 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="index.php">Home</a></li>
-                <li><a href="products.php">Products</a></li>
+                <li><a href="search.php">Catalog</a></li>
                 <li><a href="customers.php">Customers</a></li>
                 <li><a href="staffs.php">Staffs</a></li>
+                <li><a href="products.php">Products</a></li>
                 <li><a href="orders.php">Orders</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

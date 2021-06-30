@@ -60,7 +60,7 @@ if (!isset($_SESSION['loggedin']))
 <section class="main-panel">
     <div class="overlay"></div>
     <iframe class="video" frameborder="0" height="100%" width="100%" volume="0"
-            src="https://www.youtube.com/embed/wl00f0EjZHs?autoplay=1&autohide=1&controls=0&showinfo=0&mute=1"
+            src="https://www.youtube.com/embed/wl00f0EjZHs?autoplay=1&autohide=1&controls=0&showinfo=0&mute=1&loop=1"
             allow="autoplay;" allowfullscreen>
     </iframe>
 

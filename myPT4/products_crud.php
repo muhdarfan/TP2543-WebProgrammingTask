@@ -44,49 +44,53 @@ function uploadPhoto($file, $id)
 
 //Create
 if (isset($_POST['create'])) {
-    $uploadStatus = uploadPhoto($_FILES['fileToUpload'], $_POST['pid']);
+    if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') {
+        $uploadStatus = uploadPhoto($_FILES['fileToUpload'], $_POST['pid']);
 
-    if (isset($uploadStatus['status'])) {
-        try {
-            $stmt = $db->prepare("INSERT INTO tbl_products_a174652_pt2(FLD_PRODUCT_NAME, FLD_PRICE, FLD_BRAND, FLD_SOCKET, FLD_MANUFACTURED_YEAR, FLD_STOCK, FLD_PRODUCT_IMAGE)
+        if (isset($uploadStatus['status'])) {
+            try {
+                $stmt = $db->prepare("INSERT INTO tbl_products_a174652_pt2(FLD_PRODUCT_NAME, FLD_PRICE, FLD_BRAND, FLD_SOCKET, FLD_MANUFACTURED_YEAR, FLD_STOCK, FLD_PRODUCT_IMAGE)
                VALUES (:name, :price, :brand, :socket, :year, :stock, :image)");
 
-            $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-            $stmt->bindParam(':price', $price, PDO::PARAM_STR);
-            $stmt->bindParam(':brand', $brand, PDO::PARAM_STR);
-            $stmt->bindParam(':socket', $socket, PDO::PARAM_STR);
-            $stmt->bindParam(':year', $year, PDO::PARAM_INT);
-            $stmt->bindParam(':stock', $stock, PDO::PARAM_INT);
-            $stmt->bindParam(':image', $uploadStatus['name']);
+                $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+                $stmt->bindParam(':price', $price, PDO::PARAM_STR);
+                $stmt->bindParam(':brand', $brand, PDO::PARAM_STR);
+                $stmt->bindParam(':socket', $socket, PDO::PARAM_STR);
+                $stmt->bindParam(':year', $year, PDO::PARAM_INT);
+                $stmt->bindParam(':stock', $stock, PDO::PARAM_INT);
+                $stmt->bindParam(':image', $uploadStatus['name']);
 
-            $name = $_POST['name'];
-            $price = $_POST['price'];
-            $brand = $_POST['brand'];
-            $socket = $_POST['socket'];
-            $year = $_POST['year'];
-            $stock = $_POST['stock'];
+                $name = $_POST['name'];
+                $price = $_POST['price'];
+                $brand = $_POST['brand'];
+                $socket = $_POST['socket'];
+                $year = $_POST['year'];
+                $stock = $_POST['stock'];
 
-            $stmt->execute();
+                $stmt->execute();
 
-            // Rename file after upload (IF NEEDED)
-            //$id = $db->lastInsertId();
-            //rename("products/{$uploadStatus['name']}", "products/{$id}.{$uploadStatus['ext']}");
-        } catch (PDOException $e) {
-            $_SESSION['error'] = $e->getMessage();
+                // Rename file after upload (IF NEEDED)
+                //$id = $db->lastInsertId();
+                //rename("products/{$uploadStatus['name']}", "products/{$id}.{$uploadStatus['ext']}");
+            } catch (PDOException $e) {
+                $_SESSION['error'] = "Error while creating: " . $e->getMessage();
+            }
+        } else {
+            if ($uploadStatus == 0)
+                $_SESSION['error'] = "Please make sure the file uploaded is an image.";
+            elseif ($uploadStatus == 1)
+                $_SESSION['error'] = "Sorry, only file with below 10MB are allowed.";
+            elseif ($uploadStatus == 2)
+                $_SESSION['error'] = "Sorry, only PNG & GIF files are allowed.";
+            elseif ($uploadStatus == 3)
+                $_SESSION['error'] = "Sorry, there was an error uploading your file.";
+            elseif ($uploadStatus == 4)
+                $_SESSION['error'] = 'Please upload an image.';
+            else
+                $_SESSION['error'] = "An unknown error has been occurred.";
         }
     } else {
-        if ($uploadStatus == 0)
-            $_SESSION['error'] = "Please make sure the file uploaded is an image.";
-        elseif ($uploadStatus == 1)
-            $_SESSION['error'] = "Sorry, only file with below 10MB are allowed.";
-        elseif ($uploadStatus == 2)
-            $_SESSION['error'] = "Sorry, only PNG & GIF files are allowed.";
-        elseif ($uploadStatus == 3)
-            $_SESSION['error'] = "Sorry, there was an error uploading your file.";
-        elseif ($uploadStatus == 4)
-            $_SESSION['error'] = 'Please upload an image.';
-        else
-            $_SESSION['error'] = "An unknown error has been occurred.";
+        $_SESSION['error'] = "Sorry, but you don't have permission to create a new customer.";
     }
 
     header("LOCATION: {$_SERVER['REQUEST_URI']}");
@@ -95,63 +99,69 @@ if (isset($_POST['create'])) {
 
 //Update
 if (isset($_POST['update'])) {
-    try {
-        $stmt = $db->prepare("UPDATE tbl_products_a174652_pt2 SET
+    if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') {
+        try {
+            $stmt = $db->prepare("UPDATE tbl_products_a174652_pt2 SET
           FLD_PRODUCT_NAME = :name, FLD_PRICE = :price, FLD_BRAND = :brand,
           FLD_SOCKET = :socket, FLD_MANUFACTURED_YEAR = :year, FLD_STOCK = :stock
           WHERE FLD_PRODUCT_ID = :pid LIMIT 1");
 
-        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-        $stmt->bindParam(':price', $price, PDO::PARAM_STR);
-        $stmt->bindParam(':brand', $brand, PDO::PARAM_STR);
-        $stmt->bindParam(':socket', $socket, PDO::PARAM_STR);
-        $stmt->bindParam(':year', $year, PDO::PARAM_INT);
-        $stmt->bindParam(':stock', $stock, PDO::PARAM_INT);
-        $stmt->bindParam(':pid', $pid);
-
-        $name = $_POST['name'];
-        $price = $_POST['price'];
-        $brand = $_POST['brand'];
-        $socket = $_POST['socket'];
-        $year = $_POST['year'];
-        $stock = $_POST['stock'];
-        $pid = $_POST['pid'];
-
-        $stmt->execute();
-
-        // Image Upload
-        $flag = uploadPhoto($_FILES['fileToUpload'], $pid);
-        if (isset($flag['status'])) {
-            $stmt = $db->prepare("UPDATE tbl_products_a174652_pt2 SET FLD_PRODUCT_IMAGE = :image WHERE FLD_PRODUCT_ID = :pid LIMIT 1");
-
-            $stmt->bindParam(':image', $flag['name']);
+            $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+            $stmt->bindParam(':price', $price, PDO::PARAM_STR);
+            $stmt->bindParam(':brand', $brand, PDO::PARAM_STR);
+            $stmt->bindParam(':socket', $socket, PDO::PARAM_STR);
+            $stmt->bindParam(':year', $year, PDO::PARAM_INT);
+            $stmt->bindParam(':stock', $stock, PDO::PARAM_INT);
             $stmt->bindParam(':pid', $pid);
+
+            $name = $_POST['name'];
+            $price = $_POST['price'];
+            $brand = $_POST['brand'];
+            $socket = $_POST['socket'];
+            $year = $_POST['year'];
+            $stock = $_POST['stock'];
+            $pid = $_POST['pid'];
+
             $stmt->execute();
 
-            // Rename file after upload (IF NEEDED)
-            // rename("products/{$uploadStatus['name']}", "products/{$oldpid}.{$uploadStatus['ext']}");
-        } elseif ($flag != 4) {
-            if ($flag == 0)
-                $_SESSION['error'] = "Please make sure the file uploaded is an image.";
-            elseif ($flag == 1)
-                $_SESSION['error'] = "Sorry, only file with below 10MB are allowed.";
-            elseif ($flag == 2)
-                $_SESSION['error'] = "Sorry, only PNG & GIF files are allowed.";
-            elseif ($flag == 3)
-                $_SESSION['error'] = "Sorry, there was an error uploading your file.";
-            else
-                $_SESSION['error'] = "An unknown error has been occurred.";
+            // Image Upload
+            $flag = uploadPhoto($_FILES['fileToUpload'], $pid);
+            if (isset($flag['status'])) {
+                $stmt = $db->prepare("UPDATE tbl_products_a174652_pt2 SET FLD_PRODUCT_IMAGE = :image WHERE FLD_PRODUCT_ID = :pid LIMIT 1");
+
+                $stmt->bindParam(':image', $flag['name']);
+                $stmt->bindParam(':pid', $pid);
+                $stmt->execute();
+
+                // Rename file after upload (IF NEEDED)
+                // rename("products/{$uploadStatus['name']}", "products/{$oldpid}.{$uploadStatus['ext']}");
+            } elseif ($flag != 4) {
+                if ($flag == 0)
+                    $_SESSION['error'] = "Please make sure the file uploaded is an image.";
+                elseif ($flag == 1)
+                    $_SESSION['error'] = "Sorry, only file with below 10MB are allowed.";
+                elseif ($flag == 2)
+                    $_SESSION['error'] = "Sorry, only PNG & GIF files are allowed.";
+                elseif ($flag == 3)
+                    $_SESSION['error'] = "Sorry, there was an error uploading your file.";
+                else
+                    $_SESSION['error'] = "An unknown error has been occurred.";
+            }
+        } catch (PDOException $e) {
+            $_SESSION['error'] = "Error while updating: " . $e->getMessage();
+        } catch (Exception $e) {
+            $_SESSION['error'] = "Error while updating: " . $e->getMessage();
         }
-    } catch (PDOException $e) {
-        $_SESSION['error'] = $e->getMessage();
-    } catch (Exception $e) {
-        $_SESSION['error'] = $e->getMessage();
+    } else {
+        $_SESSION['error'] = "Sorry, but you don't have permission to update this product.";
+        header("LOCATION: {$_SERVER['PHP_SELF']}");
+        exit();
     }
 
     if (isset($_SESSION['error']))
         header("LOCATION: {$_SERVER['REQUEST_URI']}");
     else
-        header("Location: products.php");
+        header("Location: {$_SERVER['PHP_SELF']}");
 
     exit();
 }
@@ -220,47 +230,61 @@ if (isset($_POST['update'])) {
 
 //Delete
 if (isset($_GET['delete'])) {
-    try {
-        $pid = $_GET['delete'];
+    if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') {
+        try {
+            $pid = $_GET['delete'];
 
-        // Select Product Image Name
-        $query = $db->query("SELECT FLD_PRODUCT_IMAGE FROM tbl_products_a174652_pt2 WHERE FLD_PRODUCT_ID = {$pid} LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+            // Select Product Image Name
+            $query = $db->query("SELECT FLD_PRODUCT_IMAGE FROM tbl_products_a174652_pt2 WHERE FLD_PRODUCT_ID = {$pid} LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 
-        // Check if selected product id exists .
-        if (isset($query['FLD_PRODUCT_IMAGE'])) {
-            // Delete Query
-            $stmt = $db->prepare("DELETE FROM tbl_products_a174652_pt2 WHERE FLD_PRODUCT_ID = :pid");
-            $stmt->bindParam(':pid', $pid);
+            // Check if selected product id exists .
+            if (isset($query['FLD_PRODUCT_IMAGE'])) {
+                // Delete Query
+                $stmt = $db->prepare("DELETE FROM tbl_products_a174652_pt2 WHERE FLD_PRODUCT_ID = :pid");
+                $stmt->bindParam(':pid', $pid);
 
-            $stmt->execute();
+                $stmt->execute();
 
-            // Delete Image
-            unlink("products/{$query['FLD_PRODUCT_IMAGE']}");
+                // Delete Image
+                unlink("products/{$query['FLD_PRODUCT_IMAGE']}");
+            }
+
+        } catch (PDOException $e) {
+            $_SESSION['error'] = "Error while deleting: " . $e->getMessage();
         }
-
-        // Redirect
-        header("Location: products.php");
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+    } else {
+        $_SESSION['error'] = "Sorry, but you don't have permission to delete this product.";
     }
+
+    header("LOCATION: {$_SERVER['PHP_SELF']}");
+    exit();
 }
 
 //Edit
 if (isset($_GET['edit'])) {
-    try {
-        $stmt = $db->prepare("SELECT * FROM tbl_products_a174652_pt2 WHERE FLD_PRODUCT_ID = :pid");
-        $stmt->bindParam(':pid', $pid, PDO::PARAM_STR);
-        $pid = $_GET['edit'];
+    if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') {
+        try {
+            $stmt = $db->prepare("SELECT * FROM tbl_products_a174652_pt2 WHERE FLD_PRODUCT_ID = :pid");
+            $stmt->bindParam(':pid', $pid, PDO::PARAM_STR);
+            $pid = $_GET['edit'];
 
-        $stmt->execute();
+            $stmt->execute();
 
-        $editrow = $stmt->fetch(PDO::FETCH_ASSOC);
-        $fID = sprintf("MB%03d", $editrow['FLD_PRODUCT_ID']);
+            $editrow = $stmt->fetch(PDO::FETCH_ASSOC);
+            $fID = sprintf("MB%03d", $editrow['FLD_PRODUCT_ID']);
 
-        if (empty($editrow['FLD_PRODUCT_IMAGE']))
-            $editrow['FLD_PRODUCT_IMAGE'] = $editrow['FLD_PRODUCT_ID'] . '.png';
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+            if (empty($editrow['FLD_PRODUCT_IMAGE']))
+                $editrow['FLD_PRODUCT_IMAGE'] = $editrow['FLD_PRODUCT_ID'] . '.png';
+        } catch (PDOException $e) {
+            $_SESSION['error'] = "Error: " . $e->getMessage();
+        }
+    } else {
+        $_SESSION['error'] = "Sorry, but you don't have permission to edit a customer.";
+    }
+
+    if (isset($_SESSION['error'])) {
+        header("LOCATION: {$_SERVER['PHP_SELF']}");
+        exit();
     }
 }
 

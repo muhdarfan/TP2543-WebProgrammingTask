@@ -1,7 +1,6 @@
 <?php
 include_once 'staffs_crud.php';
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +13,7 @@ include_once 'staffs_crud.php';
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
 
-    <link rel="shortcut icon" type="image/jpg" href="favicon.ico" />
+    <link rel="shortcut icon" type="image/jpg" href="favicon.ico"/>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -25,122 +24,140 @@ include_once 'staffs_crud.php';
 </head>
 <body>
 <?php include_once 'nav_bar.inc'; ?>
+
 <?php
-if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') {
-    ?>
-    <div class="container-fluid dark" style="padding-bottom: 30px;">
-        <div class="row">
-            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-                <div class="page-header">
-                    <?php
-                    if (isset($_GET['edit'])) {
-                        echo "<h2>Editing #{$fid}</h2>";
-                    } else {
-                        echo "<h2>Create New Staff</h2>";
-                    }
-                    ?>
-                </div>
-                <form action="staffs.php" method="post" class="form-horizontal">
-                    <?php
-                    if (isset($_GET['edit'])) {
-                        echo '<input type="hidden" name="sid" value="' . $editrow['FLD_STAFF_ID'] . '" />';
-                    }
-                    ?>
-                    <div class="form-group">
-                        <label for="staffid" class="col-sm-3 control-label">Staff ID</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="staffid" placeholder="Staff ID"
-                                   value="<?php echo(isset($_GET['edit']) ? $fid : $NextID); ?>" readonly required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="fullname" class="col-sm-3 control-label">Full Name</label>
-                        <div class="col-sm-9">
-                            <input name="name" type="text" class="form-control" id="fullname" placeholder="First Name"
-                                   value="<?php if (isset($_GET['edit'])) echo $editrow['FLD_STAFF_NAME']; ?>"
-                                   required/>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="inputEmail" class="col-sm-3 control-label">Email</label>
-                        <div class="col-sm-9">
-                            <input name="email" type="text" class="form-control" id="inputEmail" placeholder="Staff Email"
-                                   value="<?php if (isset($_GET['edit'])) echo $editrow['FLD_STAFF_EMAIL']; ?>" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="inputEmail" class="col-sm-3 control-label">Password</label>
-                        <div class="col-sm-9">
-                            <input name="password" type="text" class="form-control" id="inputEmail" placeholder="Staff Password"
-                                   value="<?php if (isset($_GET['edit'])) echo $editrow['FLD_STAFF_PASSWORD']; ?>" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="gender" class="col-sm-3 control-label">Gender</label>
-                        <div class="col-sm-9">
-                            <div class="radio">
-                                <label>
-                                    <input name="gender" type="radio" id="gender"
-                                           value="male" <?php if (isset($_GET['edit'])) if ($editrow['FLD_STAFF_GENDER'] == "male") echo "checked"; ?>
-                                           required> Male
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    <input name="gender" type="radio" id="gender"
-                                           value="female" <?php if (isset($_GET['edit'])) if ($editrow['FLD_STAFF_GENDER'] == "female") echo "checked"; ?>
-                                           required> Female
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="phone" class="col-sm-3 control-label">Role</label>
-                        <div class="col-sm-9">
-                            <select class="form-control" name="role">
-                                <option value="normal" <?php echo (isset($_GET['edit']) && $editrow['FLD_STAFF_ROLE'] == 'normal' ? 'selected' : ''); ?>>Normal Staff</option>
-                                <option value="admin" <?php echo (isset($_GET['edit']) && $editrow['FLD_STAFF_ROLE'] == 'admin' ? 'selected' : ''); ?>>Administrator</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="phone" class="col-sm-3 control-label">Phone Number</label>
-                        <div class="col-sm-9">
-                            <input name="phone" type="text" class="form-control" id="phone" placeholder="Phone Number"
-                                   value="<?php if (isset($_GET['edit'])) echo $editrow['FLD_STAFF_PHONE']; ?>"
-                                   required/>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-9">
-                            <?php if (isset($_GET['edit'])) { ?>
-                                <input type="hidden" name="oldsid" value="<?php echo $editrow['FLD_STAFF_ID']; ?>">
-                                <button class="btn btn-default" type="submit" name="update"><span
-                                            class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Update
-                                </button>
-                            <?php } else { ?>
-                                <button class="btn btn-default" type="submit" name="create"><span
-                                            class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create
-                                </button>
-                            <?php } ?>
-                            <button class="btn btn-default" type="reset"><span class="glyphicon glyphicon-erase"
-                                                                               aria-hidden="true"></span> Clear
-                            </button>
-                        </div>
-                    </div>
-                </form>
+// Shows form if the user is logged in AND have admin role.
+//if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') {
+?>
+<div class="container-fluid dark" style="padding-bottom: 30px;">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+            <div class="page-header">
+                <?php
+                if (isset($_GET['edit'])) {
+                    echo "<h2>Editing #{$fid}</h2>";
+                } else {
+                    echo "<h2>Create New Staff</h2>";
+                }
+                ?>
             </div>
-        </div>
 
+            <?php
+            if (isset($_SESSION['error'])) {
+                echo "<p class='text-danger text-center'>{$_SESSION['error']}</p>";
+                unset($_SESSION['error']);
+            }
+            ?>
+
+            <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" class="form-horizontal">
+                <?php
+                if (isset($_GET['edit'])) {
+                    echo '<input type="hidden" name="sid" value="' . $editrow['FLD_STAFF_ID'] . '" />';
+                }
+                ?>
+                <div class="form-group">
+                    <label for="staffid" class="col-sm-3 control-label">Staff ID</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="staffid" placeholder="Staff ID"
+                               value="<?php echo(isset($_GET['edit']) ? $fid : $NextID); ?>" readonly required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="fullname" class="col-sm-3 control-label">Full Name</label>
+                    <div class="col-sm-9">
+                        <input name="name" type="text" class="form-control" id="fullname" placeholder="Full Name"
+                               value="<?php if (isset($_GET['edit'])) echo $editrow['FLD_STAFF_NAME']; ?>"
+                               required/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEmail" class="col-sm-3 control-label">Email</label>
+                    <div class="col-sm-9">
+                        <input name="email" type="text" class="form-control" id="inputEmail" placeholder="Staff Email"
+                               value="<?php if (isset($_GET['edit'])) echo $editrow['FLD_STAFF_EMAIL']; ?>" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEmail" class="col-sm-3 control-label">Password</label>
+                    <div class="col-sm-9">
+                        <input name="password" type="text" class="form-control" id="inputEmail"
+                               placeholder="Staff Password"
+                               value="<?php if (isset($_GET['edit'])) echo $editrow['FLD_STAFF_PASSWORD']; ?>" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="gender" class="col-sm-3 control-label">Gender</label>
+                    <div class="col-sm-9">
+                        <div class="radio">
+                            <label>
+                                <input name="gender" type="radio" id="gender"
+                                       value="male" <?php if (isset($_GET['edit'])) if ($editrow['FLD_STAFF_GENDER'] == "male") echo "checked"; ?>
+                                       required> Male
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input name="gender" type="radio" id="gender"
+                                       value="female" <?php if (isset($_GET['edit'])) if ($editrow['FLD_STAFF_GENDER'] == "female") echo "checked"; ?>
+                                       required> Female
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone" class="col-sm-3 control-label">Role</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" name="role" required>
+                            <option value="normal" <?php echo(isset($_GET['edit']) && $editrow['FLD_STAFF_ROLE'] == 'normal' ? 'selected' : ''); ?>>
+                                Normal Staff
+                            </option>
+                            <option value="admin" <?php echo(isset($_GET['edit']) && $editrow['FLD_STAFF_ROLE'] == 'admin' ? 'selected' : ''); ?>>
+                                Administrator
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone" class="col-sm-3 control-label">Phone Number</label>
+                    <div class="col-sm-9">
+                        <input name="phone" type="text" class="form-control" id="phone"
+                               value="<?php if (isset($_GET['edit'])) echo $editrow['FLD_STAFF_PHONE']; ?>"
+                               pattern="\+60\d{2}-(\d{7}|\d{8})$"
+                               placeholder="Phone Number (eg. +6011-2345678)"
+                               required/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <?php if (isset($_GET['edit'])) { ?>
+                            <input type="hidden" name="oldsid" value="<?php echo $editrow['FLD_STAFF_ID']; ?>">
+                            <button class="btn btn-default" type="submit" name="update"><span
+                                        class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Update
+                            </button>
+                        <?php } else { ?>
+                            <button class="btn btn-default" type="submit" name="create"><span
+                                        class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create
+                            </button>
+                        <?php } ?>
+                        <button class="btn btn-default" type="reset"><span class="glyphicon glyphicon-erase"
+                                                                           aria-hidden="true"></span> Clear
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-<?php } ?>
+
+</div>
+<?php // } ?>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
@@ -153,6 +170,7 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                     <th>Full Name</th>
                     <th>Gender</th>
                     <th>Phone Number</th>
+                    <th>Role</th>
                     <th></th>
                 </tr>
                 <?php
@@ -179,6 +197,7 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                         <td><?php echo $readrow['FLD_STAFF_NAME']; ?></td>
                         <td><?php echo ucfirst($readrow['FLD_STAFF_GENDER']); ?></td>
                         <td><?php echo $readrow['FLD_STAFF_PHONE']; ?></td>
+                        <td><?php echo ($readrow['FLD_STAFF_ROLE'] == 'admin' ? 'Administrator' : 'Normal Staff'); ?></td>
                         <td class="text-center">
                             <?php
                             if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') {

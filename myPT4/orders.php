@@ -31,7 +31,14 @@ include_once 'orders_crud.php';
             <div class="page-header">
                 <h2>Create New Order</h2>
             </div>
-            <form action="orders.php" method="post" class="form-horizontal">
+            <?php
+            if (isset($_SESSION['error'])) {
+                echo "<p class='text-danger text-center'>{$_SESSION['error']}</p>";
+                unset($_SESSION['error']);
+            }
+            ?>
+
+            <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post" class="form-horizontal">
                 <div class="form-group">
                     <label for="orderid" class="col-sm-3 control-label">Order ID</label>
                     <div class="col-sm-9">
