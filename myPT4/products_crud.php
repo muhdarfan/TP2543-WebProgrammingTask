@@ -90,7 +90,7 @@ if (isset($_POST['create'])) {
                 $_SESSION['error'] = "An unknown error has been occurred.";
         }
     } else {
-        $_SESSION['error'] = "Sorry, but you don't have permission to create a new customer.";
+        $_SESSION['error'] = "Sorry, but you don't have permission to create a new product.";
     }
 
     header("LOCATION: {$_SERVER['REQUEST_URI']}");
@@ -279,7 +279,7 @@ if (isset($_GET['edit'])) {
             $_SESSION['error'] = "Error: " . $e->getMessage();
         }
     } else {
-        $_SESSION['error'] = "Sorry, but you don't have permission to edit a customer.";
+        $_SESSION['error'] = "Sorry, but you don't have permission to edit a product.";
     }
 
     if (isset($_SESSION['error'])) {

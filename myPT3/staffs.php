@@ -73,7 +73,8 @@ include_once 'staffs_crud.php';
           <div class="form-group">
             <label for="phone" class="col-sm-3 control-label">Phone Number</label>
             <div class="col-sm-9">
-              <input name="phone" type="text" class="form-control" id="phone" placeholder="Phone Number" value="<?php if(isset($_GET['edit'])) echo $editrow['FLD_STAFF_PHONE']; ?>" required />
+              <input name="phone" type="text" class="form-control" id="phone" pattern="\+60\d{2}-(\d{7}|\d{8})$"
+                     placeholder="Phone Number (eg. +6011-2345678)" value="<?php if(isset($_GET['edit'])) echo $editrow['FLD_STAFF_PHONE']; ?>" required />
             </div>
           </div>
 
@@ -126,7 +127,7 @@ include_once 'staffs_crud.php';
             echo "Error: " . $e->getMessage();
           }
           foreach($result as $readrow) {
-            ?>   
+            ?>
             <tr>
               <td><?php echo $readrow['FLD_STAFF_ID']; ?></td>
             <td><?php echo $readrow['FLD_STAFF_NAME']; ?></td>

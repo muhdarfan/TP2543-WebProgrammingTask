@@ -188,11 +188,6 @@ include_once 'products_crud.php';
                                            onchange="loadFile(event);"/>
                                     <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Browse
                                 </label>
-                                <?php
-                                if (isset($_GET['edit']) && $editrow['FLD_PRODUCT_IMAGE'] != '') {
-                                    echo '<a href="#" class="btn btn-danger disabled" role="button">Delete</a>';
-                                }
-                                ?>
                             </p>
                         </div>
                     </div>

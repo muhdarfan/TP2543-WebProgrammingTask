@@ -12,7 +12,7 @@ if (!isset($_SESSION['loggedin']))
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>My Bike Ordering System : Products Details</title>
+    <title>My Motherboard Ordering System : Products Details</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
@@ -56,7 +56,7 @@ $conn = null;
             <?php if (!file_exists("products/{$readrow['FLD_PRODUCT_IMAGE']}")) {
                 echo "No image";
             } else { ?>
-                <img src="products/<?php echo $readrow['FLD_PRODUCT_IMAGE']; ?>" class="img-responsive">
+                <img src="products/<?php echo $readrow['FLD_PRODUCT_IMAGE']; ?>" class="img-responsive" style="width: 100%">
             <?php } ?>
         </div>
         <div class="col-xs-12 col-sm-5 col-md-4">

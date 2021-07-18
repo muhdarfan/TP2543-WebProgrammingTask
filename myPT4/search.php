@@ -78,9 +78,9 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                     $keywords = explode(" ", $_POST['search']);
 
                     if (count($keywords) == 3) {
-                        $brand = $keywords[0]."%";
-                        $price = $keywords[1]."%";
-                        $socket = $keywords[2]."%";
+                        $brand = "%".$keywords[0]."%";
+                        $price = "%".$keywords[1]."%";
+                        $socket = "%".$keywords[2]."%";
 
                         $stmt = $db->prepare("SELECT * FROM tbl_products_a174652_pt2 WHERE FLD_BRAND LIKE :brand AND FLD_PRICE LIKE :price AND FLD_SOCKET LIKE :socket ORDER BY FLD_PRODUCT_ID ASC");
                         $stmt->bindParam(":brand", $brand);
@@ -99,6 +99,9 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
 
                 if (count($result) > 0) {
                     foreach ($result as $readrow) {
+                        if (empty($readrow['FLD_PRODUCT_IMAGE'])) {
+                            $readrow['FLD_PRODUCT_IMAGE'] = "{$readrow['FLD_PRODUCT_ID']}.png";
+                        }
                         ?>
                         <tr style="color: #AAA;">
                             <td><?php echo sprintf("MB%03d", $readrow['FLD_PRODUCT_ID']); ?></td>
@@ -107,7 +110,7 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                             <td><?php echo $readrow['FLD_SOCKET']; ?></td>
                             <td><?php echo $readrow['FLD_STOCK']; ?></td>
                             <td class="text-center">
-                                <a href="products_details.php?pid=<?php echo $readrow['FLD_PRODUCT_ID']; ?>"
+                                <a target="_blank" href="products_details.php?pid=<?php echo $readrow['FLD_PRODUCT_ID']; ?>"
                                    class="btn btn-warning btn-xs" role="button">Details</a>
                                 <button data-toggle="modal" data-target="#imageModal"
                                         data-img="<?php echo $readrow['FLD_PRODUCT_IMAGE']; ?>"

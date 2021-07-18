@@ -3,20 +3,30 @@ include_once 'database.php';
 
 if (!isset($_SESSION['loggedin']))
     header("LOCATION: login.php");
-?>
-<?php
+
+if (!isset($_GET['oid']) || empty($_GET['oid']))
+    header("LOCATION: orders.php");
+
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $stmt = $conn->prepare("SELECT *, odr.fld_order_num AS order_num FROM tbl_orders_a174652 odr
+    INNER JOIN tbl_staffs_a174652_pt2 staff ON odr.fld_staff_num = staff.FLD_STAFF_ID
+    INNER JOIN tbl_customers_a174652_pt2 cust ON odr.fld_customer_num = cust.FLD_CUSTOMER_ID
+    LEFT JOIN tbl_orders_details_a174652 odr_detail ON odr.fld_order_num = odr_detail.fld_order_num
+    WHERE odr.fld_order_num = :oid");
+    /*
     $stmt = $conn->prepare("SELECT * FROM tbl_orders_a174652, tbl_staffs_a174652_pt2,
     tbl_customers_a174652_pt2, tbl_orders_details_a174652 WHERE
     tbl_orders_a174652.fld_staff_num = tbl_staffs_a174652_pt2.FLD_STAFF_ID AND
     tbl_orders_a174652.fld_customer_num = tbl_customers_a174652_pt2.FLD_CUSTOMER_ID AND
     tbl_orders_a174652.fld_order_num = tbl_orders_details_a174652.fld_order_num AND
     tbl_orders_a174652.fld_order_num = :oid");
-    $stmt->bindParam(':oid', $oid, PDO::PARAM_STR);
+    */
+    $stmt->bindParam(':oid', $oid);
     $oid = $_GET['oid'];
     $stmt->execute();
+
     $readrow = $stmt->fetch(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
@@ -83,7 +93,7 @@ $conn = null;
                 <p>
                     <?php
                     $line = explode(',', $readrow['FLD_CUSTOMER_ADDRESS']);
-                    echo join($line, ',<br />');
+                    echo implode(", <br />", $line);
                     ?>
                 </p>
             </div>

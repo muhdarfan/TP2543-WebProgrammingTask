@@ -75,7 +75,7 @@ include_once 'staffs_crud.php';
                 <div class="form-group">
                     <label for="inputEmail" class="col-sm-3 control-label">Email</label>
                     <div class="col-sm-9">
-                        <input name="email" type="text" class="form-control" id="inputEmail" placeholder="Staff Email"
+                        <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Staff Email"
                                value="<?php if (isset($_GET['edit'])) echo $editrow['FLD_STAFF_EMAIL']; ?>" required>
                     </div>
                 </div>

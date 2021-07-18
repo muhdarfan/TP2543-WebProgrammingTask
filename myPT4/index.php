@@ -73,14 +73,14 @@ if (!isset($_SESSION['loggedin']))
                     <div class="col-md-12">
                         <h1>EagleZ Motherboard Ordering System</h1>
                         <hr style="border-top: 1px solid transparent;"/>
-                        <p>Search product by model, type, price or all three.</p>
+                        <p>Search product by brand, price, socket or all three.</p>
                     </div>
                     <div class="col-md-offset-2 col-md-8">
                         <form action="#" method="POST" id="searchForm">
                             <div class="form-group">
                                 <input type="text" class="form-control text-center input-lg" id="inputSearch"
                                        name="search"
-                                       placeholder="ASUS MAXIMUS 93.00 Asus" autocomplete="off" required/>
+                                       placeholder="ASUS 979.00 LGA" autocomplete="off" required/>
                                 <span id="helpBlock2" class="help-block"></span>
                             </div>
 
@@ -94,7 +94,7 @@ if (!isset($_SESSION['loggedin']))
 
 </section>
 
-<section id="resultSection" class="container resultList" style="padding: 20px;display: none;">
+<section id="resultSection" class="container resultList" style="padding: 20px;display: none;height: 100%">
     <div class="text-center">
         <h2>Result</h2>
         <p>Found <span class="result-count">0</span> results.</p>
@@ -113,6 +113,7 @@ if (!isset($_SESSION['loggedin']))
 
         var input = $("#inputSearch");
         var val = input.val();
+        var flag = false;
 
         input.parent().removeClass('has-error');
         input.parent().find("#helpBlock2").text("");
@@ -145,23 +146,30 @@ if (!isset($_SESSION['loggedin']))
                                 <div class="caption text-center">
                                 <h3>${data.FLD_PRODUCT_NAME}</h3>
                                 <p>
-                                <a href="products_details.php?pid=${data.FLD_PRODUCT_ID}" class="btn btn-primary" role="button">View</a>
+                                <a target="_blank" href="products_details.php?pid=${data.FLD_PRODUCT_ID}" class="btn btn-primary" role="button">View</a>
                                 </p>
                                 </div>
                                 </div>
                                 </div>`);
                         });
-
-                        $(".resultList").show("slow", function () {
-                            $("body").removeClass('loading');
-
-                            $('html, body').animate({
-                                scrollTop: $("#resultSection").offset().top
-                            }, 500);
-                        });
+                        flag = true;
+                    } else {
+                        input.parent().addClass("has-error");
+                        input.parent().find("#helpBlock2").text(res.data);
                     }
                 },
                 complete: function () {
+                    $("body").removeClass('loading');
+
+                    if (flag) {
+                        $(".resultList").show("slow", function () {
+                            $('html, body').animate({
+                                scrollTop: $("#resultSection").offset().top
+                            }, 500);
+
+                            flag = false;
+                        });
+                    }
                     input.removeClass('disabled');
                 }
             });

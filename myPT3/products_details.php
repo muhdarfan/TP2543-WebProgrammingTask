@@ -9,7 +9,7 @@ include_once 'database.php';
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-  <title>My Bike Ordering System : Products Details</title>
+  <title>My Motherboard Ordering System : Products Details</title>
   <!-- Bootstrap -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
 
