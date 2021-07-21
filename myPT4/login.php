@@ -97,7 +97,7 @@ if (isset($_POST['userid'], $_POST['password'])) {
 
             <hr/>
             <p class="text-center">
-                Don't have an account? Click <a href="register.php">here</a> to register.<br/>
+                <!-- Don't have an account? Click <a href="register.php">here</a> to register.<br/> -->
                 Click <a href="#" data-toggle="modal" data-target="#demoAccountModal">here</a> to retrieve demo account.
             </p>
         </div>
@@ -140,7 +140,7 @@ if (isset($_POST['userid'], $_POST['password'])) {
                             <dt>Email</dt>
                             <dd>syafiqah@ukm.my</dd>
                             <dt>Password</dt>
-                            <dd>1234</dd>
+                            <dd>password</dd>
                         </dl>
                         </p>
                     </div>

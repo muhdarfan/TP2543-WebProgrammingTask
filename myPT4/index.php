@@ -142,7 +142,7 @@ if (!isset($_SESSION['loggedin']))
 
                             $('.list-item').append(`<div class="col-md-4">
                                 <div class="thumbnail thumbnail-dark">
-                                <img src="products/${data.FLD_PRODUCT_IMAGE}" alt="${data.FLD_PRODUCT_NAME}" style="height: 345px;">
+                                <img src="products/${data.FLD_PRODUCT_IMAGE}" onerror="this.onerror=null;this.src='products/no-photo.png';" alt="${data.FLD_PRODUCT_NAME}" style="height: 345px;">
                                 <div class="caption text-center">
                                 <h3>${data.FLD_PRODUCT_NAME}</h3>
                                 <p>

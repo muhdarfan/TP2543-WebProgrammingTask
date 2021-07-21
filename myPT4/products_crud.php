@@ -69,6 +69,8 @@ if (isset($_POST['create'])) {
 
                 $stmt->execute();
 
+                clearstatcache();
+
                 // Rename file after upload (IF NEEDED)
                 //$id = $db->lastInsertId();
                 //rename("products/{$uploadStatus['name']}", "products/{$id}.{$uploadStatus['ext']}");
@@ -132,6 +134,8 @@ if (isset($_POST['update'])) {
                 $stmt->bindParam(':image', $flag['name']);
                 $stmt->bindParam(':pid', $pid);
                 $stmt->execute();
+
+                clearstatcache();
 
                 // Rename file after upload (IF NEEDED)
                 // rename("products/{$uploadStatus['name']}", "products/{$oldpid}.{$uploadStatus['ext']}");

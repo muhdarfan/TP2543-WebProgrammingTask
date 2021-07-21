@@ -1,5 +1,8 @@
 <?php
 require 'database.php';
+
+if (!isset($_SESSION['loggedin']))
+    header("LOCATION: login.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -23,38 +26,34 @@ require 'database.php';
     <![endif]-->
 </head>
 <?php include_once 'nav_bar.inc'; ?>
-<?php
-if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') {
-    ?>
-    <div class="container-fluid dark" style="padding-bottom: 30px;">
-        <div class="row">
-            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-                <div class="page-header">
-                    <h2>Catalog: Search</h2>
+<div class="container-fluid dark" style="padding-bottom: 30px;">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+            <div class="page-header">
+                <h2>Products: Search</h2>
+            </div>
+
+            <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+                <div class="col-sm-offset-2 col-sm-8">
+                    <div class="form-group">
+                        <label for="inputKeyword">Keywords (Brands, Price, Socket)</label>
+                        <input type="text" class="form-control" id="inputKeyword" name="search"
+                               placeholder="Eg. Asus 949.00 LGA1151">
+                    </div>
                 </div>
 
-                <form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
-                    <div class="col-sm-offset-2 col-sm-8">
-                        <div class="form-group">
-                            <label for="inputKeyword">Keywords (Brands, Price, Socket)</label>
-                            <input type="text" class="form-control" id="inputKeyword" name="search"
-                                   placeholder="Eg. Asus 949.00 LGA1151">
-                        </div>
-                    </div>
 
-
-                    <div class="form-group">
-                        <div class="col-sm-offset-5 col-sm-3 text-center">
-                            <button class="btn btn-default btn-lg" type="submit">
-                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
-                            </button>
-                        </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-5 col-sm-3 text-center">
+                        <button class="btn btn-default btn-lg" type="submit">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                        </button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
-<?php } ?>
+</div>
 
 <div class="container-fluid">
     <div class="row">
@@ -78,14 +77,21 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                     $keywords = explode(" ", $_POST['search']);
 
                     if (count($keywords) == 3) {
-                        $brand = "%".$keywords[0]."%";
-                        $price = "%".$keywords[1]."%";
-                        $socket = "%".$keywords[2]."%";
+                        $brand = "%" . $keywords[0] . "%";
+                        $price = "%" . $keywords[1] . "%";
+                        $socket = "%" . $keywords[2] . "%";
 
                         $stmt = $db->prepare("SELECT * FROM tbl_products_a174652_pt2 WHERE FLD_BRAND LIKE :brand AND FLD_PRICE LIKE :price AND FLD_SOCKET LIKE :socket ORDER BY FLD_PRODUCT_ID ASC");
                         $stmt->bindParam(":brand", $brand);
                         $stmt->bindParam(":price", $price);
                         $stmt->bindParam(":socket", $socket);
+
+                        $stmt->execute();
+                        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    } elseif (count($keywords) == 1) {
+                        $search = "%{$keywords[0]}%";
+                        $stmt = $db->prepare("SELECT * FROM `tbl_products_a174652_pt2` WHERE FLD_PRODUCT_NAME LIKE :param OR FLD_PRICE LIKE :param OR FLD_BRAND LIKE :param ORDER BY FLD_PRODUCT_ID ASC");
+                        $stmt->bindParam(":param", $search);
 
                         $stmt->execute();
                         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -110,7 +116,8 @@ if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') 
                             <td><?php echo $readrow['FLD_SOCKET']; ?></td>
                             <td><?php echo $readrow['FLD_STOCK']; ?></td>
                             <td class="text-center">
-                                <a target="_blank" href="products_details.php?pid=<?php echo $readrow['FLD_PRODUCT_ID']; ?>"
+                                <a target="_blank"
+                                   href="products_details.php?pid=<?php echo $readrow['FLD_PRODUCT_ID']; ?>"
                                    class="btn btn-warning btn-xs" role="button">Details</a>
                                 <button data-toggle="modal" data-target="#imageModal"
                                         data-img="<?php echo $readrow['FLD_PRODUCT_IMAGE']; ?>"

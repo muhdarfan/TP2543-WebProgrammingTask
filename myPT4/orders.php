@@ -13,7 +13,7 @@ include_once 'orders_crud.php';
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
 
-    <link rel="shortcut icon" type="image/jpg" href="favicon.ico" />
+    <link rel="shortcut icon" type="image/jpg" href="favicon.ico"/>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -62,6 +62,7 @@ include_once 'orders_crud.php';
                     <label for="staff" class="col-sm-3 control-label">Staff</label>
                     <div class="col-sm-9">
                         <select name="sid" class="form-control" id="staff" required>
+                            <option value="">Please select</option>
                             <?php
                             try {
                                 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -72,6 +73,7 @@ include_once 'orders_crud.php';
                             } catch (PDOException $e) {
                                 echo "Error: " . $e->getMessage();
                             }
+
                             foreach ($result as $staffrow) {
                                 ?>
                                 <?php if ((isset($_GET['edit'])) && ($editrow['fld_staff_num'] == $staffrow['FLD_STAFF_ID'])) { ?>
@@ -85,6 +87,42 @@ include_once 'orders_crud.php';
                             $conn = null;
                             ?>
                         </select>
+
+                        <!--
+                        <?php
+                        if (isset($_SESSION['user']) && $_SESSION['user']['FLD_STAFF_ROLE'] == 'admin') {
+                            ?>
+                            <select name="sid" class="form-control" id="staff" required>
+                                <?php
+                            try {
+                                $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+                                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                                $stmt = $conn->prepare("SELECT * FROM tbl_staffs_a174652_pt2");
+                                $stmt->execute();
+                                $result = $stmt->fetchAll();
+                            } catch (PDOException $e) {
+                                echo "Error: " . $e->getMessage();
+                            }
+                            echo '<option value="">Please select</option>';
+                            foreach ($result as $staffrow) {
+                                ?>
+                                    <?php if ((isset($_GET['edit'])) && ($editrow['fld_staff_num'] == $staffrow['FLD_STAFF_ID'])) { ?>
+                                        <option value="<?php echo $staffrow['FLD_STAFF_ID']; ?>"
+                                                selected><?php echo $staffrow['FLD_STAFF_NAME']; ?></option>
+                                    <?php } else { ?>
+                                        <option value="<?php echo $staffrow['FLD_STAFF_ID']; ?>"><?php echo $staffrow['FLD_STAFF_NAME']; ?></option>
+                                    <?php } ?>
+                                    <?php
+                            } // while
+                            $conn = null;
+                            ?>
+                            </select>
+                            <?php
+                        } else {
+                            echo "<input type='hidden' name='sid' value='{$_SESSION['user']['FLD_STAFF_ID']}' /><p class='form-control-static'>{$_SESSION['user']['FLD_STAFF_NAME']}</p>";
+                        }
+                        ?>
+                        -->
                     </div>
                 </div>
 
@@ -92,6 +130,7 @@ include_once 'orders_crud.php';
                     <label for="customer" class="col-sm-3 control-label">Customer</label>
                     <div class="col-sm-9">
                         <select name="cid" class="form-control" id="customer" required>
+                            <option value="">Please select</option>
                             <?php
                             try {
                                 $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -122,7 +161,6 @@ include_once 'orders_crud.php';
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-9">
                         <?php if (isset($_GET['edit'])) { ?>
-                            <input type="hidden" name="oldsid" value="<?php echo $editrow['fld_staff_num']; ?>">
                             <button class="btn btn-default" type="submit" name="update"><span
                                         class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Update
                             </button>
@@ -251,7 +289,9 @@ include_once 'orders_crud.php';
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+        integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.min.js"></script>
 <script>
