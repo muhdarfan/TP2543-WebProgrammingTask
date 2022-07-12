@@ -39,3 +39,5 @@ Demo: [LRGS FTSM](http://lrgs.ftsm.ukm.my/users/a174652)
 **Do not hesitate to use it as a reference!**
 
 **Contact me if anything goes wrong.**
+
+Email: a174652@siswa.ukm.edu.my / sirarfan20@gmail.com
